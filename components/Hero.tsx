@@ -1,91 +1,83 @@
 "use client";
 
-import { motion } from "framer-motion";
-import {
-  Grid3x3,
-  Dice5,
-  Bomb,
-  TrendingUp,
-  Triangle,
-  Rocket,
-  Layers,
-  Bird,
-} from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-const games = [
-  { name: "Keno", gradient: "from-cyan-400 to-blue-600", icon: Grid3x3 },
-  { name: "Plinko", gradient: "from-purple-500 to-violet-600", icon: Triangle },
-  { name: "Limbo", gradient: "from-emerald-500 to-teal-600", icon: TrendingUp },
-  { name: "Dice", gradient: "from-blue-500 to-indigo-600", icon: Dice5 },
-  { name: "Mines", gradient: "from-rose-500 to-red-600", icon: Bomb },
-  { name: "Crash", gradient: "from-orange-500 to-amber-600", icon: Rocket },
-  { name: "Hilo", gradient: "from-pink-500 to-fuchsia-600", icon: Layers },
-  { name: "Chicken", gradient: "from-amber-400 to-yellow-600", icon: Bird },
+const brands = [
+  { id: "shuffle", name: "SHUFFLE", color: "#7C5CFC", icon: "S" },
+  { id: "bitcasino", name: "BITCASINO", color: "#FF6B35", icon: "B" },
+  { id: "cloudbet", name: "CLOUDBET", color: "#00D4FF", icon: "C" },
+  { id: "csgo500", name: "CSGO500", color: "#F5C518", icon: "5" },
+  { id: "metaspins", name: "METASPINS", color: "#00FF88", icon: "M" },
 ];
 
-export function Hero() {
+interface HeroProps {
+  activeBrand: string;
+  onBrandChange: (brand: string) => void;
+}
+
+export function Hero({ activeBrand, onBrandChange }: HeroProps) {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  const brand = brands[index];
+
+  const advance = useCallback(() => {
+    setIndex((prev) => {
+      const next = (prev + 1) % brands.length;
+      onBrandChange(brands[next].id);
+      return next;
+    });
+  }, [onBrandChange]);
+
+  useEffect(() => {
+    if (paused) return;
+    const timer = setInterval(advance, 3000);
+    return () => clearInterval(timer);
+  }, [paused, advance]);
+
+  useEffect(() => {
+    const i = brands.findIndex((b) => b.id === activeBrand);
+    if (i !== -1 && i !== index) setIndex(i);
+  }, [activeBrand]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleClick = () => {
+    setPaused(true);
+    advance();
+    setTimeout(() => setPaused(false), 6000);
+  };
+
   return (
-    <section className="pt-32 pb-16 md:pt-40 md:pb-24 px-6">
-      <div className="mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-        >
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight max-w-4xl leading-[1.08]">
-            Original instant games moulded to fit your online casino brand
-          </h1>
-          <p className="mt-6 text-base md:text-lg text-white/50 max-w-2xl leading-relaxed">
-            Origami crafts world-class original instant games—already played by
-            thousands and generating hundreds of millions in revenue.
-          </p>
-        </motion.div>
-
-        {/* Game preview label bar */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-          className="mt-14 mb-6 flex items-center gap-4"
-        >
-          <span className="text-sm text-white/40 whitespace-nowrap">
-            Instant Casino Games
-          </span>
-          <div className="h-px flex-1 bg-white/[0.06]" />
-          <span className="text-sm text-white/30 whitespace-nowrap">
-            Game Previews
-          </span>
-        </motion.div>
-
-        {/* Horizontal game cards */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-          className="overflow-x-auto scrollbar-hide -mx-6 px-6 pb-4"
-        >
-          <div className="flex gap-4 w-max">
-            {games.map((game) => {
-              const Icon = game.icon;
-              return (
-                <a
-                  key={game.name}
-                  href="#games"
-                  className={`group relative w-36 h-48 md:w-44 md:h-56 rounded-2xl bg-gradient-to-br ${game.gradient} flex flex-col items-center justify-end p-4 flex-shrink-0 overflow-hidden transition-transform duration-300 hover:scale-[1.03]`}
-                >
-                  <Icon
-                    size={36}
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] text-white/25 group-hover:text-white/40 transition-colors duration-300"
-                    strokeWidth={1.5}
-                  />
-                  <span className="relative text-[11px] font-bold uppercase tracking-widest text-white/90">
-                    {game.name}
-                  </span>
-                </a>
-              );
-            })}
-          </div>
-        </motion.div>
+    <section className="pt-28 pb-8 md:pt-32 md:pb-12 px-6">
+      <div className="mx-auto max-w-[1400px]">
+        <h1 className="font-mono text-[22px] sm:text-3xl md:text-[38px] lg:text-[44px] font-bold tracking-tight leading-snug">
+          We power{" "}
+          <AnimatePresence mode="wait">
+            <motion.button
+              key={brand.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              onClick={handleClick}
+              className="inline-flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity align-baseline"
+              style={{ color: brand.color }}
+            >
+              {/* Brand icon badge */}
+              <span
+                className="inline-flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-md text-[11px] sm:text-xs font-bold"
+                style={{
+                  backgroundColor: brand.color + "25",
+                  color: brand.color,
+                }}
+              >
+                {brand.icon}
+              </span>
+              <span className="font-mono font-bold">{brand.name}</span>
+            </motion.button>
+          </AnimatePresence>{" "}
+          originals
+        </h1>
       </div>
     </section>
   );

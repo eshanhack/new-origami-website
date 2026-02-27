@@ -5,12 +5,31 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const links = [
-  { label: "Games", href: "#games" },
-  { label: "Quickstart", href: "#quickstart" },
-  { label: "Company", href: "#company" },
-  { label: "Press", href: "#press" },
+const navItems = [
+  { label: "GAMES", href: "#games" },
+  { label: "CUSTOMISATION", href: "#quickstart" },
+  { label: "INTEGRATION", href: "#quickstart" },
+  { label: "PROVABLY FAIR", href: "#company" },
+  { label: "BANKROLL", href: "#contact" },
 ];
+
+function OrigamiLogo() {
+  return (
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 32 32"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path d="M16 2L30 16L16 30L2 16Z" stroke="white" strokeWidth="1.5" />
+      <path d="M16 2L2 16L16 16Z" fill="white" fillOpacity="0.12" />
+      <path d="M16 2L30 16L16 16Z" fill="white" fillOpacity="0.28" />
+      <path d="M30 16L16 30L16 16Z" fill="white" fillOpacity="0.45" />
+      <path d="M2 16L16 16L16 30Z" fill="white" fillOpacity="0.08" />
+    </svg>
+  );
+}
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -26,85 +45,78 @@ export function Header() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled ? "glass-nav" : "bg-transparent"
+        scrolled
+          ? "bg-black/80 backdrop-blur-xl border-b border-white/[0.06]"
+          : "bg-transparent"
       )}
     >
-      <nav className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
-        <a href="#" className="text-base font-semibold tracking-tight">
-          Origami
+      <nav className="mx-auto max-w-[1400px] px-6 lg:px-10 h-[72px] flex items-center justify-between">
+        {/* Logo */}
+        <a href="#" className="flex items-center gap-2.5 flex-shrink-0">
+          <OrigamiLogo />
+          <span className="text-[15px] font-semibold tracking-tight">
+            Origami
+          </span>
         </a>
 
-        <div className="hidden md:flex items-center gap-1">
-          {links.map((link) => (
+        {/* Desktop nav — center */}
+        <div className="hidden lg:flex items-center gap-1">
+          {navItems.map((item) => (
             <a
-              key={link.href}
-              href={link.href}
-              className="px-4 py-2 text-[13px] text-white/50 hover:text-white transition-colors rounded-lg hover:bg-white/[0.04]"
+              key={item.label}
+              href={item.href}
+              className="px-3.5 py-2 text-[11px] font-medium text-white/45 hover:text-white tracking-[0.14em] transition-colors"
             >
-              {link.label}
+              {item.label}
             </a>
           ))}
         </div>
 
-        <div className="hidden md:flex items-center gap-5">
-          <a
-            href="#contact"
-            className="text-[13px] text-white/50 hover:text-white transition-colors"
-          >
-            Contact
-          </a>
-          <a
-            href="#games"
-            className="px-4 py-1.5 text-[13px] font-medium text-black bg-white rounded-full hover:bg-white/90 transition-colors"
-          >
-            Live Demo
-          </a>
-        </div>
+        {/* Desktop contact — right */}
+        <a
+          href="#contact"
+          className="hidden lg:inline-flex px-5 py-2 text-[11px] font-medium text-white/60 tracking-[0.14em] border border-white/20 rounded-full hover:border-white/40 hover:text-white transition-all flex-shrink-0"
+        >
+          CONTACT
+        </a>
 
+        {/* Mobile toggle */}
         <button
           onClick={() => setOpen(!open)}
-          className="md:hidden text-white/60 hover:text-white transition-colors"
+          className="lg:hidden text-white/60 hover:text-white transition-colors"
           aria-label="Menu"
         >
           {open ? <X size={20} /> : <Menu size={20} />}
         </button>
       </nav>
 
+      {/* Mobile dropdown */}
       <AnimatePresence>
         {open && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden overflow-hidden bg-black/95 backdrop-blur-xl border-t border-white/[0.06]"
+            className="lg:hidden overflow-hidden bg-black/95 backdrop-blur-xl border-t border-white/[0.06]"
           >
-            <div className="px-6 py-4 flex flex-col gap-1">
-              {links.map((link) => (
+            <div className="px-6 py-5 flex flex-col gap-1">
+              {navItems.map((item) => (
                 <a
-                  key={link.href}
-                  href={link.href}
+                  key={item.label}
+                  href={item.href}
                   onClick={() => setOpen(false)}
-                  className="py-2.5 text-sm text-white/50 hover:text-white transition-colors"
+                  className="py-2.5 text-[11px] font-medium text-white/45 hover:text-white tracking-[0.14em] transition-colors"
                 >
-                  {link.label}
+                  {item.label}
                 </a>
               ))}
-              <div className="flex items-center gap-4 mt-3 pt-3 border-t border-white/[0.06]">
-                <a
-                  href="#contact"
-                  onClick={() => setOpen(false)}
-                  className="text-sm text-white/50"
-                >
-                  Contact
-                </a>
-                <a
-                  href="#games"
-                  onClick={() => setOpen(false)}
-                  className="px-4 py-1.5 text-sm font-medium text-black bg-white rounded-full"
-                >
-                  Live Demo
-                </a>
-              </div>
+              <a
+                href="#contact"
+                onClick={() => setOpen(false)}
+                className="mt-3 inline-flex justify-center px-5 py-2.5 text-[11px] font-medium text-white/60 tracking-[0.14em] border border-white/20 rounded-full"
+              >
+                CONTACT
+              </a>
             </div>
           </motion.div>
         )}
