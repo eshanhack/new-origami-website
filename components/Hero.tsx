@@ -1,197 +1,92 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import {
+  Grid3x3,
+  Dice5,
+  Bomb,
+  TrendingUp,
+  Triangle,
+  Rocket,
+  Layers,
+  Bird,
+} from "lucide-react";
 
-export const brands = [
-  {
-    id: "shuffle",
-    name: "Shuffle.com",
-    logo: "/brands/shuffle.png",
-    theme: "shuffle.css",
-  },
-  {
-    id: "bitcasino",
-    name: "Bitcasino",
-    logo: "/brands/bitcasino.png",
-    theme: "bitcasino.css",
-  },
-  {
-    id: "cloudbet",
-    name: "Cloudbet",
-    logo: "/brands/cloudbet.png",
-    theme: "cloudbet.css",
-  },
-  {
-    id: "csgo500",
-    name: "CSGO500",
-    logo: "/brands/csgo500.png",
-    theme: "csgo500.css",
-  },
-  {
-    id: "metaspins",
-    name: "Metaspins",
-    logo: "/brands/metaspins.png",
-    theme: "metaspins.css",
-  },
+const games = [
+  { name: "Keno", gradient: "from-cyan-400 to-blue-600", icon: Grid3x3 },
+  { name: "Plinko", gradient: "from-purple-500 to-violet-600", icon: Triangle },
+  { name: "Limbo", gradient: "from-emerald-500 to-teal-600", icon: TrendingUp },
+  { name: "Dice", gradient: "from-blue-500 to-indigo-600", icon: Dice5 },
+  { name: "Mines", gradient: "from-rose-500 to-red-600", icon: Bomb },
+  { name: "Crash", gradient: "from-orange-500 to-amber-600", icon: Rocket },
+  { name: "Hilo", gradient: "from-pink-500 to-fuchsia-600", icon: Layers },
+  { name: "Chicken", gradient: "from-amber-400 to-yellow-600", icon: Bird },
 ];
 
-interface HeroProps {
-  activeBrand: string;
-  onBrandChange: (brandId: string) => void;
-}
-
-function BrandLogo({
-  brand,
-  onError,
-}: {
-  brand: (typeof brands)[number];
-  onError: () => void;
-}) {
-  const [failed, setFailed] = useState(false);
-
-  useEffect(() => {
-    setFailed(false);
-  }, [brand.id]);
-
-  if (failed) {
-    return (
-      <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight whitespace-nowrap">
-        {brand.name}
-      </span>
-    );
-  }
-
+export function Hero() {
   return (
-    <Image
-      src={brand.logo}
-      alt={brand.name}
-      width={360}
-      height={90}
-      className="h-12 sm:h-16 md:h-20 w-auto object-contain"
-      onError={() => {
-        setFailed(true);
-        onError();
-      }}
-      priority
-      unoptimized
-    />
-  );
-}
+    <section className="pt-32 pb-16 md:pt-40 md:pb-24 px-6">
+      <div className="mx-auto max-w-7xl">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+        >
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight max-w-4xl leading-[1.08]">
+            Original instant games moulded to fit your online casino brand
+          </h1>
+          <p className="mt-6 text-base md:text-lg text-white/50 max-w-2xl leading-relaxed">
+            Origami crafts world-class original instant games—already played by
+            thousands and generating hundreds of millions in revenue.
+          </p>
+        </motion.div>
 
-export function Hero({ activeBrand, onBrandChange }: HeroProps) {
-  const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const [logoFailed, setLogoFailed] = useState<Record<string, boolean>>({});
-
-  useEffect(() => {
-    if (paused) {
-      const resume = setTimeout(() => setPaused(false), 8000);
-      return () => clearTimeout(resume);
-    }
-    const timer = setInterval(() => {
-      setIndex((i) => (i + 1) % brands.length);
-    }, 3500);
-    return () => clearInterval(timer);
-  }, [paused]);
-
-  useEffect(() => {
-    onBrandChange(brands[index].id);
-  }, [index, onBrandChange]);
-
-  const selectBrand = useCallback((i: number) => {
-    setIndex(i);
-    setPaused(true);
-  }, []);
-
-  const brand = brands[index];
-
-  return (
-    <section className="relative min-h-[90vh] flex flex-col items-center justify-center px-6 pt-24 pb-16">
-      {/* Subtle ambient glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/[0.015] rounded-full blur-[150px] pointer-events-none" />
-
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="relative z-10 text-center"
-      >
-        <h1 className="flex flex-col items-center gap-2 md:gap-3">
-          <span className="text-3xl sm:text-4xl md:text-5xl font-semibold text-[#555] tracking-tight">
-            We power
-          </span>
-
-          {/* Rotating brand */}
-          <span className="relative block h-14 sm:h-18 md:h-24 w-full my-1 md:my-2">
-            <AnimatePresence mode="wait">
-              <motion.span
-                key={brand.id}
-                initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: -24, filter: "blur(8px)" }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
-                className="absolute inset-0 flex items-center justify-center cursor-pointer"
-                onClick={() =>
-                  selectBrand((index + 1) % brands.length)
-                }
-              >
-                {logoFailed[brand.id] ? (
-                  <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight whitespace-nowrap">
-                    {brand.name}
-                  </span>
-                ) : (
-                  <BrandLogo
-                    brand={brand}
-                    onError={() =>
-                      setLogoFailed((p) => ({ ...p, [brand.id]: true }))
-                    }
-                  />
-                )}
-              </motion.span>
-            </AnimatePresence>
-          </span>
-
-          <span className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight">
-            originals
-          </span>
-        </h1>
-
-        <motion.p
+        {/* Game preview label bar */}
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-          className="mt-8 text-base md:text-lg text-[#777] max-w-xl mx-auto leading-relaxed"
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="mt-14 mb-6 flex items-center gap-4"
         >
-          World-class instant games—already played by thousands and generating
-          hundreds of millions in revenue.
-        </motion.p>
-      </motion.div>
+          <span className="text-sm text-white/40 whitespace-nowrap">
+            Instant Casino Games
+          </span>
+          <div className="h-px flex-1 bg-white/[0.06]" />
+          <span className="text-sm text-white/30 whitespace-nowrap">
+            Game Previews
+          </span>
+        </motion.div>
 
-      {/* Brand selector pills */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5, duration: 0.5 }}
-        className="relative z-10 mt-14 flex flex-wrap items-center justify-center gap-2"
-      >
-        {brands.map((b, i) => (
-          <button
-            key={b.id}
-            onClick={() => selectBrand(i)}
-            className={cn(
-              "px-4 py-2 text-xs font-medium rounded-full border transition-all duration-300",
-              i === index
-                ? "border-white/20 bg-white/[0.08] text-white"
-                : "border-white/[0.06] text-[#555] hover:text-[#999] hover:border-white/10"
-            )}
-          >
-            {b.name}
-          </button>
-        ))}
-      </motion.div>
+        {/* Horizontal game cards */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className="overflow-x-auto scrollbar-hide -mx-6 px-6 pb-4"
+        >
+          <div className="flex gap-4 w-max">
+            {games.map((game) => {
+              const Icon = game.icon;
+              return (
+                <a
+                  key={game.name}
+                  href="#games"
+                  className={`group relative w-36 h-48 md:w-44 md:h-56 rounded-2xl bg-gradient-to-br ${game.gradient} flex flex-col items-center justify-end p-4 flex-shrink-0 overflow-hidden transition-transform duration-300 hover:scale-[1.03]`}
+                >
+                  <Icon
+                    size={36}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] text-white/25 group-hover:text-white/40 transition-colors duration-300"
+                    strokeWidth={1.5}
+                  />
+                  <span className="relative text-[11px] font-bold uppercase tracking-widest text-white/90">
+                    {game.name}
+                  </span>
+                </a>
+              );
+            })}
+          </div>
+        </motion.div>
+      </div>
     </section>
   );
 }

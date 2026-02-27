@@ -1,26 +1,22 @@
-"use client";
-
-import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
-import { GameViewer } from "@/components/GameViewer";
-import { CustomizationLayers } from "@/components/CustomizationLayers";
+import { Partners } from "@/components/Partners";
+import { GameShowcase } from "@/components/GameShowcase";
+import { Capabilities } from "@/components/Capabilities";
+import { Press } from "@/components/Press";
+import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
-  const [activeBrand, setActiveBrand] = useState("default");
-  const [activeGame, setActiveGame] = useState("KENO");
-
   return (
-    <main className="relative min-h-screen">
+    <main className="min-h-screen bg-black">
       <Header />
-      <Hero activeBrand={activeBrand} onBrandChange={setActiveBrand} />
-      <GameViewer
-        activeGame={activeGame}
-        onGameChange={setActiveGame}
-        activeBrand={activeBrand}
-      />
-      <CustomizationLayers />
+      <Hero />
+      <Partners />
+      <GameShowcase />
+      <Capabilities />
+      <Press />
+      <CTA />
       <Footer />
     </main>
   );
