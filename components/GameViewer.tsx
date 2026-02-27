@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 const games = [
   {
@@ -97,13 +98,20 @@ export function GameViewer({
           transition={{ duration: 0.5, delay: 0.15 }}
           className="mt-8 overflow-x-auto scrollbar-hide -mx-6 px-6 pb-2"
         >
-          <div className="flex gap-4 w-max">
+          <div className="flex gap-4 w-max items-end">
             {games.map((game) => {
+              const isActive = game.id === activeGame;
               return (
                 <button
                   key={game.id}
                   onClick={() => onGameChange(game.id)}
-                  className="group relative flex-shrink-0 rounded-2xl overflow-hidden transition-transform duration-300 w-[140px] h-[195px] sm:w-[155px] sm:h-[215px] md:w-[168px] md:h-[235px] hover:scale-[1.04]"
+                  className={cn(
+                    "thumb-glow group relative flex-shrink-0 rounded-2xl overflow-hidden transition-all duration-300",
+                    "w-[140px] h-[195px] sm:w-[155px] sm:h-[215px] md:w-[168px] md:h-[235px]",
+                    isActive
+                      ? "thumb-active -translate-y-3"
+                      : "hover:-translate-y-1.5"
+                  )}
                 >
                   <Image
                     src={game.thumbnail}
@@ -112,9 +120,6 @@ export function GameViewer({
                     className="object-cover"
                     sizes="168px"
                   />
-                  {/* Glossy edge highlight */}
-                  <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/20" />
-                  <span className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-white/15 via-transparent to-transparent" />
                 </button>
               );
             })}
