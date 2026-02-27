@@ -60,7 +60,7 @@ export function Partners() {
             [ Our Partners ]
           </span>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+            <h2 className="font-degular text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
               <span className="text-white/40">10+</span> Live Operators
             </h2>
             <a

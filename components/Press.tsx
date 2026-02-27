@@ -55,7 +55,7 @@ export function Press() {
           <span className="text-xs font-medium text-white/30 uppercase tracking-[0.2em] block mb-4">
             [ In the Press ]
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+          <h2 className="font-degular text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
             Highlights
           </h2>
         </motion.div>

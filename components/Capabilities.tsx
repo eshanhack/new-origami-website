@@ -106,7 +106,7 @@ export function Capabilities() {
             <span className="text-xs font-medium text-white/30 uppercase tracking-[0.2em] block mb-4">
               [ About Us ]
             </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight max-w-3xl leading-[1.1] mb-6">
+            <h2 className="font-degular text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight max-w-3xl leading-[1.1] mb-6">
               We craft original instant games for the world&apos;s biggest
               casinos.
             </h2>
@@ -155,7 +155,7 @@ export function Capabilities() {
             <span className="text-xs font-medium text-white/30 uppercase tracking-[0.2em] block mb-4">
               [ Operator Capabilities ]
             </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+            <h2 className="font-degular text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
               Retention Unlocked
             </h2>
           </motion.div>

@@ -64,7 +64,7 @@ export function Hero({ activeBrand, onBrandChange }: HeroProps) {
   return (
     <section className="pt-28 pb-8 md:pt-32 md:pb-12 px-6">
       <div className="mx-auto max-w-[1400px]">
-        <h1 className="font-mono text-[22px] sm:text-3xl md:text-[38px] lg:text-[44px] font-bold tracking-tight leading-snug">
+        <h1 className="font-degular text-[22px] sm:text-3xl md:text-[38px] lg:text-[44px] font-bold tracking-tight leading-snug">
           We power{" "}
           <span className="inline-flex flex-col items-start align-baseline">
             <AnimatePresence mode="wait">

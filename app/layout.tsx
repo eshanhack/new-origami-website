@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Space_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 const inter = Inter({
@@ -11,6 +12,14 @@ const spaceMono = Space_Mono({
   weight: ["400", "700"],
   subsets: ["latin"],
   variable: "--font-mono",
+});
+
+const degular = localFont({
+  src: "../public/fonts/Degular-Bold.woff2",
+  weight: "700",
+  style: "normal",
+  variable: "--font-degular",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -27,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${inter.variable} ${spaceMono.variable} font-sans antialiased`}
+        className={`${inter.variable} ${spaceMono.variable} ${degular.variable} font-sans antialiased`}
       >
         {children}
       </body>
