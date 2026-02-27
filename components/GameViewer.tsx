@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -9,31 +10,37 @@ const games = [
     id: "DICE",
     name: "Dice",
     thumbnail: "https://i.imgur.com/Dc2g0E5.jpeg",
+    video: "/videos/dice.mp4",
   },
   {
     id: "MINES",
     name: "Mines",
     thumbnail: "https://i.imgur.com/tJsKgqP.jpeg",
+    video: "/videos/mines.mp4",
   },
   {
     id: "PLINKO",
     name: "Plinko",
     thumbnail: "https://i.imgur.com/c5Jmjjj.jpeg",
+    video: "/videos/plinko.mp4",
   },
   {
     id: "LIMBO",
     name: "Limbo",
     thumbnail: "https://i.imgur.com/H78MSp2.jpeg",
+    video: "/videos/limbo.mp4",
   },
   {
     id: "KENO",
     name: "Keno",
     thumbnail: "https://i.imgur.com/zAsVpFX.jpeg",
+    video: "/videos/keno.mp4",
   },
   {
     id: "BLACKJACK",
     name: "Blackjack",
     thumbnail: "https://i.imgur.com/NpjNm77.jpeg",
+    video: "/videos/blackjack.mp4",
   },
 ];
 
@@ -41,6 +48,32 @@ interface GameViewerProps {
   activeGame: string;
   onGameChange: (game: string) => void;
   activeBrand: string;
+}
+
+function GameVideo({ src, name }: { src: string; name: string }) {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    v.load();
+    v.play().catch(() => {});
+  }, [src]);
+
+  return (
+    <video
+      ref={ref}
+      key={src}
+      muted
+      loop
+      playsInline
+      autoPlay
+      className="absolute inset-0 w-full h-full object-cover"
+      aria-label={name}
+    >
+      <source src={src} type="video/mp4" />
+    </video>
+  );
 }
 
 export function GameViewer({
@@ -52,7 +85,7 @@ export function GameViewer({
   return (
     <section id="games" className="pb-16 md:pb-24 px-6">
       <div className="mx-auto max-w-[1400px]">
-        {/* Game display */}
+        {/* Game video display */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -69,23 +102,7 @@ export function GameViewer({
                 transition={{ duration: 0.3 }}
                 className="absolute inset-0"
               >
-                <Image
-                  src={currentGame.thumbnail}
-                  alt={currentGame.name}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 1400px"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                <div className="absolute bottom-6 left-6 md:bottom-10 md:left-10">
-                  <span className="text-white/50 text-xs font-mono tracking-widest uppercase">
-                    Now playing
-                  </span>
-                  <h2 className="text-white text-2xl md:text-4xl font-bold mt-1">
-                    {currentGame.name}
-                  </h2>
-                </div>
+                <GameVideo src={currentGame.video} name={currentGame.name} />
               </motion.div>
             </AnimatePresence>
           </div>
