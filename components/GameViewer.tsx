@@ -1,12 +1,7 @@
 "use client";
 
-import { useMemo } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
-
-const BASE_URL = "https://games.betorigami.com/";
-const SESSION = "019ca168-222d-7a5d-aea3-b649849848ec";
 
 const games = [
   {
@@ -41,37 +36,6 @@ const games = [
   },
 ];
 
-function buildUrl(game: string, theme: string) {
-  const settings = {
-    game,
-    environment: "HUB88_DEV",
-    theme,
-    seasonTheme: "DEFAULT",
-    logoUrl: null,
-    footerPosition: "BELOW",
-    language: "en",
-    minBet: "0.01",
-    maxBet: "1000",
-    maxPayout: "350000",
-    edge: 2,
-    currency: "USD",
-    currencyDecimals: 2,
-    lobbyUrl: "https://betorigami.com",
-    depositUrl: "https://betorigami.com",
-    requiresFullScreen: false,
-    showCurrencyAsText: false,
-  };
-  return `${BASE_URL}?settings=${encodeURIComponent(btoa(JSON.stringify(settings)))}&session=${SESSION}`;
-}
-
-const brandThemes: Record<string, string> = {
-  shuffle: "shuffle.css",
-  bitcasino: "bitcasino.css",
-  cloudbet: "cloudbet.css",
-  csgo500: "csgo500.css",
-  metaspins: "metaspins.css",
-};
-
 interface GameViewerProps {
   activeGame: string;
   onGameChange: (game: string) => void;
@@ -81,29 +45,48 @@ interface GameViewerProps {
 export function GameViewer({
   activeGame,
   onGameChange,
-  activeBrand,
 }: GameViewerProps) {
-  const theme = brandThemes[activeBrand] || "default.css";
-  const url = useMemo(() => buildUrl(activeGame, theme), [activeGame, theme]);
+  const currentGame = games.find((g) => g.id === activeGame) ?? games[0];
 
   return (
     <section id="games" className="pb-16 md:pb-24 px-6">
       <div className="mx-auto max-w-[1400px]">
-        {/* Game iframe */}
+        {/* Game display */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0c0c0c]"
         >
-          <div className="aspect-[16/9] md:aspect-[2/1]">
-            <iframe
-              key={url}
-              src={url}
-              className="w-full h-full"
-              title={activeGame}
-              allow="autoplay; fullscreen"
-            />
+          <div className="relative aspect-[16/9] md:aspect-[2/1]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentGame.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={currentGame.thumbnail}
+                  alt={currentGame.name}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 1400px"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <div className="absolute bottom-6 left-6 md:bottom-10 md:left-10">
+                  <span className="text-white/50 text-xs font-mono tracking-widest uppercase">
+                    Now playing
+                  </span>
+                  <h2 className="text-white text-2xl md:text-4xl font-bold mt-1">
+                    {currentGame.name}
+                  </h2>
+                </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
         </motion.div>
 
@@ -116,18 +99,11 @@ export function GameViewer({
         >
           <div className="flex gap-4 w-max">
             {games.map((game) => {
-              const active = game.id === activeGame;
               return (
                 <button
                   key={game.id}
                   onClick={() => onGameChange(game.id)}
-                  className={cn(
-                    "group relative flex-shrink-0 rounded-2xl overflow-hidden transition-all duration-300",
-                    "w-[140px] h-[195px] sm:w-[155px] sm:h-[215px] md:w-[168px] md:h-[235px]",
-                    active
-                      ? "ring-2 ring-white/50 scale-[1.02] shadow-lg shadow-white/5"
-                      : "opacity-85 hover:opacity-100 hover:scale-[1.03]"
-                  )}
+                  className="group relative flex-shrink-0 rounded-2xl overflow-hidden transition-transform duration-300 w-[140px] h-[195px] sm:w-[155px] sm:h-[215px] md:w-[168px] md:h-[235px] hover:scale-[1.04]"
                 >
                   <Image
                     src={game.thumbnail}
@@ -136,6 +112,9 @@ export function GameViewer({
                     className="object-cover"
                     sizes="168px"
                   />
+                  {/* Glossy edge highlight */}
+                  <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/20" />
+                  <span className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-white/15 via-transparent to-transparent" />
                 </button>
               );
             })}
