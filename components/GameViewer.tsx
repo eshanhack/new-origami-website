@@ -93,13 +93,13 @@ export function GameViewer({
           className="rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0c0c0c]"
         >
           <div className="relative aspect-[16/9] md:aspect-[2/1]">
-            <AnimatePresence mode="wait">
+            <AnimatePresence initial={false}>
               <motion.div
                 key={currentGame.id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.1 }}
                 className="absolute inset-0"
               >
                 <GameVideo src={currentGame.video} name={currentGame.name} />
