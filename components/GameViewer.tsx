@@ -96,7 +96,7 @@ export function GameViewer({
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="mt-8 overflow-x-auto scrollbar-hide -mx-6 px-6 pb-2"
+          className="mt-8 overflow-x-auto scrollbar-hide -mx-6 px-6 pt-6 pb-4"
         >
           <div className="flex gap-4 w-max items-end">
             {games.map((game) => {
@@ -106,20 +106,22 @@ export function GameViewer({
                   key={game.id}
                   onClick={() => onGameChange(game.id)}
                   className={cn(
-                    "thumb-glow group relative flex-shrink-0 rounded-2xl overflow-hidden transition-all duration-300",
+                    "thumb-glow group relative flex-shrink-0 rounded-2xl transition-all duration-300",
                     "w-[140px] h-[195px] sm:w-[155px] sm:h-[215px] md:w-[168px] md:h-[235px]",
                     isActive
-                      ? "thumb-active -translate-y-3"
-                      : "hover:-translate-y-1.5"
+                      ? "thumb-active thumb-floating"
+                      : "hover:-translate-y-2"
                   )}
                 >
-                  <Image
-                    src={game.thumbnail}
-                    alt={game.name}
-                    fill
-                    className="object-cover"
-                    sizes="168px"
-                  />
+                  <div className="absolute inset-0 rounded-2xl overflow-hidden">
+                    <Image
+                      src={game.thumbnail}
+                      alt={game.name}
+                      fill
+                      className="object-cover"
+                      sizes="168px"
+                    />
+                  </div>
                 </button>
               );
             })}
