@@ -2,13 +2,19 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 const brands = [
-  { id: "shuffle", name: "SHUFFLE", color: "#7C5CFC", icon: "S" },
-  { id: "bitcasino", name: "BITCASINO", color: "#FF6B35", icon: "B" },
-  { id: "cloudbet", name: "CLOUDBET", color: "#00D4FF", icon: "C" },
-  { id: "csgo500", name: "CSGO500", color: "#F5C518", icon: "5" },
-  { id: "metaspins", name: "METASPINS", color: "#00FF88", icon: "M" },
+  {
+    id: "shuffle",
+    name: "SHUFFLE",
+    color: "#7C5CFC",
+    logo: "https://i.imgur.com/UzEEQwC.png",
+  },
+  { id: "bitcasino", name: "BITCASINO", color: "#FF6B35", logo: null },
+  { id: "cloudbet", name: "CLOUDBET", color: "#00D4FF", logo: null },
+  { id: "csgo500", name: "CSGO500", color: "#F5C518", logo: null },
+  { id: "metaspins", name: "METASPINS", color: "#00FF88", logo: null },
 ];
 
 interface HeroProps {
@@ -63,17 +69,17 @@ export function Hero({ activeBrand, onBrandChange }: HeroProps) {
               className="inline-flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity align-baseline"
               style={{ color: brand.color }}
             >
-              {/* Brand icon badge */}
-              <span
-                className="inline-flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-md text-[11px] sm:text-xs font-bold"
-                style={{
-                  backgroundColor: brand.color + "25",
-                  color: brand.color,
-                }}
-              >
-                {brand.icon}
-              </span>
-              <span className="font-mono font-bold">{brand.name}</span>
+              {brand.logo ? (
+                <Image
+                  src={brand.logo}
+                  alt={brand.name}
+                  width={160}
+                  height={32}
+                  className="h-6 sm:h-7 md:h-8 w-auto"
+                />
+              ) : (
+                <span className="font-mono font-bold">{brand.name}</span>
+              )}
             </motion.button>
           </AnimatePresence>{" "}
           originals

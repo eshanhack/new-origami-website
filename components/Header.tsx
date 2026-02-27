@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -12,24 +13,6 @@ const navItems = [
   { label: "PROVABLY FAIR", href: "#company" },
   { label: "BANKROLL", href: "#contact" },
 ];
-
-function OrigamiLogo() {
-  return (
-    <svg
-      width="28"
-      height="28"
-      viewBox="0 0 32 32"
-      fill="none"
-      aria-hidden="true"
-    >
-      <path d="M16 2L30 16L16 30L2 16Z" stroke="white" strokeWidth="1.5" />
-      <path d="M16 2L2 16L16 16Z" fill="white" fillOpacity="0.12" />
-      <path d="M16 2L30 16L16 16Z" fill="white" fillOpacity="0.28" />
-      <path d="M30 16L16 30L16 16Z" fill="white" fillOpacity="0.45" />
-      <path d="M2 16L16 16L16 30Z" fill="white" fillOpacity="0.08" />
-    </svg>
-  );
-}
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -51,15 +34,17 @@ export function Header() {
       )}
     >
       <nav className="mx-auto max-w-[1400px] px-6 lg:px-10 h-[72px] flex items-center justify-between">
-        {/* Logo */}
         <a href="#" className="flex items-center gap-2.5 flex-shrink-0">
-          <OrigamiLogo />
-          <span className="text-[15px] font-semibold tracking-tight">
-            Origami
-          </span>
+          <Image
+            src="https://i.imgur.com/jRcM3MF.png"
+            alt="Origami"
+            width={140}
+            height={32}
+            className="h-7 w-auto"
+            priority
+          />
         </a>
 
-        {/* Desktop nav — center */}
         <div className="hidden lg:flex items-center gap-1">
           {navItems.map((item) => (
             <a
@@ -72,7 +57,6 @@ export function Header() {
           ))}
         </div>
 
-        {/* Desktop contact — right */}
         <a
           href="#contact"
           className="hidden lg:inline-flex px-5 py-2 text-[11px] font-medium text-white/60 tracking-[0.14em] border border-white/20 rounded-full hover:border-white/40 hover:text-white transition-all flex-shrink-0"
@@ -80,7 +64,6 @@ export function Header() {
           CONTACT
         </a>
 
-        {/* Mobile toggle */}
         <button
           onClick={() => setOpen(!open)}
           className="lg:hidden text-white/60 hover:text-white transition-colors"
@@ -90,7 +73,6 @@ export function Header() {
         </button>
       </nav>
 
-      {/* Mobile dropdown */}
       <AnimatePresence>
         {open && (
           <motion.div
