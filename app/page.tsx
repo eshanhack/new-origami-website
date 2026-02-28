@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { GameViewer } from "@/components/GameViewer";
 import { Partners } from "@/components/Partners";
+import { WhyOrigami } from "@/components/WhyOrigami";
 import { Capabilities } from "@/components/Capabilities";
 import { Press } from "@/components/Press";
 import { CTA } from "@/components/CTA";
@@ -24,6 +25,7 @@ export default function Home() {
         activeBrand={activeBrand}
       />
       <Partners />
+      <WhyOrigami />
       <Capabilities />
       <Press />
       <CTA />
