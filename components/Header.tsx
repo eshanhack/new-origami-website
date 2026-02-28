@@ -33,7 +33,7 @@ export function Header() {
           : "bg-transparent"
       )}
     >
-      <nav className="mx-auto max-w-[1400px] px-6 lg:px-10 h-[72px] flex items-center justify-between">
+      <nav className="mx-auto max-w-[1400px] px-6 lg:px-10 h-14 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2.5 flex-shrink-0">
           <Image
             src="https://i.imgur.com/jRcM3MF.png"

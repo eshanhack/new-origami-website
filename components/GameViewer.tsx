@@ -83,7 +83,7 @@ export function GameViewer({
   const currentGame = games.find((g) => g.id === activeGame) ?? games[0];
 
   return (
-    <section id="games" className="pb-16 md:pb-24 px-6">
+    <section id="games" className="pb-6 md:pb-10 px-6">
       <div className="mx-auto max-w-[1400px]">
         {/* Game video display */}
         <motion.div
@@ -92,7 +92,7 @@ export function GameViewer({
           transition={{ duration: 0.5 }}
           className="rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0c0c0c]"
         >
-          <div className="relative aspect-[64/33]">
+          <div className="relative aspect-[64/33] max-h-[52vh]">
             <AnimatePresence initial={false}>
               <motion.div
                 key={currentGame.id}
@@ -113,9 +113,9 @@ export function GameViewer({
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="mt-8 overflow-x-auto scrollbar-hide -mx-6 px-6 pt-6 pb-4"
+          className="mt-4 overflow-x-auto scrollbar-hide -mx-6 px-6 pt-5 pb-3"
         >
-          <div className="flex gap-4 w-max items-end">
+          <div className="flex gap-3 w-max items-end">
             {games.map((game) => {
               const isActive = game.id === activeGame;
               return (
@@ -123,14 +123,14 @@ export function GameViewer({
                   key={game.id}
                   onClick={() => onGameChange(game.id)}
                   className={cn(
-                    "thumb-glow group relative flex-shrink-0 rounded-2xl transition-all duration-300",
-                    "w-[140px] h-[195px] sm:w-[155px] sm:h-[215px] md:w-[168px] md:h-[235px]",
+                    "thumb-glow group relative flex-shrink-0 rounded-xl transition-all duration-300",
+                    "w-[100px] h-[140px] sm:w-[115px] sm:h-[160px] md:w-[130px] md:h-[182px]",
                     isActive
                       ? "thumb-active thumb-floating"
                       : "hover:-translate-y-2"
                   )}
                 >
-                  <div className="absolute inset-0 rounded-2xl overflow-hidden">
+                  <div className="absolute inset-0 rounded-xl overflow-hidden">
                     <Image
                       src={game.thumbnail}
                       alt={game.name}
