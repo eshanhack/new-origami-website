@@ -92,7 +92,7 @@ export function GameViewer({
           transition={{ duration: 0.5 }}
           className="rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0c0c0c]"
         >
-          <div className="relative aspect-[16/9] md:aspect-[2/1]">
+          <div className="relative aspect-[64/33]">
             <AnimatePresence initial={false}>
               <motion.div
                 key={currentGame.id}
