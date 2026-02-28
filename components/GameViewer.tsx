@@ -145,7 +145,7 @@ export function GameViewer({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mx-auto rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0c0c0c] aspect-[64/33] max-h-[52vh]"
+          className="video-glow mx-auto rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0c0c0c] aspect-[64/33] max-h-[52vh]"
           style={{ maxWidth: "calc(52vh * 64 / 33)" }}
         >
           <div className="relative w-full h-full">
@@ -168,7 +168,7 @@ export function GameViewer({
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="mt-4 overflow-x-auto scrollbar-hide -mx-6 px-6 pt-5 pb-3"
+          className="mt-5 overflow-x-auto scrollbar-hide -mx-6 px-6 pt-5 pb-3"
         >
           <div className="flex gap-3 items-end justify-center">
             {games.map((game) => {
@@ -179,14 +179,18 @@ export function GameViewer({
                   key={game.id}
                   onClick={() => onGameChange(game.id)}
                   className={cn(
-                    "thumb-glow group relative flex-shrink-0 rounded-xl transition-all duration-300",
-                    "w-[100px] h-[140px] sm:w-[115px] sm:h-[160px] md:w-[130px] md:h-[182px]",
-                    isActive
-                      ? "thumb-active thumb-floating"
-                      : "hover:-translate-y-2"
+                    "group relative flex-shrink-0 rounded-xl transition-all duration-300 text-center",
+                    "w-[100px] sm:w-[115px] md:w-[130px]"
                   )}
                 >
-                  <div className="absolute inset-0 rounded-xl overflow-hidden">
+                  <div
+                    className={cn(
+                      "thumb-glow relative rounded-xl overflow-hidden transition-all duration-300 aspect-[5/7]",
+                      isActive
+                        ? "thumb-active thumb-floating"
+                        : "group-hover:-translate-y-2"
+                    )}
+                  >
                     <Image
                       src={game.thumbnail}
                       alt={game.name}
@@ -194,11 +198,18 @@ export function GameViewer({
                       className="object-cover"
                       sizes="168px"
                     />
+                    {!ready && !allReady && (
+                      <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-white/30 animate-pulse" />
+                    )}
                   </div>
-                  {/* Loading dot for videos still buffering */}
-                  {!ready && !allReady && (
-                    <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-white/30 animate-pulse" />
-                  )}
+                  <span
+                    className={cn(
+                      "block mt-2 text-[10px] font-medium tracking-[0.1em] uppercase transition-colors duration-200",
+                      isActive ? "text-white/70" : "text-white/25"
+                    )}
+                  >
+                    {game.name}
+                  </span>
                 </button>
               );
             })}

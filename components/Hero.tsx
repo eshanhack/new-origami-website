@@ -62,18 +62,19 @@ export function Hero({ activeBrand, onBrandChange }: HeroProps) {
   };
 
   return (
-    <section className="pt-20 pb-4 md:pt-24 md:pb-5 px-6">
-      <div className="mx-auto max-w-[1400px]">
-        <h1 className="font-degular text-[22px] sm:text-3xl md:text-[38px] lg:text-[44px] font-bold tracking-tight leading-snug text-center">
-          We power{" "}
+    <section className="relative pt-[76px] pb-5 md:pt-[88px] md:pb-6 px-6">
+      <div className="hero-glow" />
+      <div className="relative z-10 mx-auto max-w-[1400px]">
+        <h1 className="font-degular text-[28px] sm:text-4xl md:text-[48px] lg:text-[56px] font-bold tracking-[-0.02em] leading-[1.15] text-center">
+          <span className="text-white/50">We power</span>{" "}
           <span className="inline-flex flex-col items-center align-baseline">
             <AnimatePresence mode="wait">
               <motion.button
                 key={brand.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: -12, filter: "blur(4px)" }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                 onClick={handleClick}
                 className="inline-flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
                 style={{ color: brand.color }}
@@ -82,21 +83,21 @@ export function Hero({ activeBrand, onBrandChange }: HeroProps) {
                   <Image
                     src={brand.logo}
                     alt={brand.name}
-                    width={160}
-                    height={32}
-                    className="h-6 sm:h-7 md:h-8 w-auto"
+                    width={200}
+                    height={40}
+                    className="h-7 sm:h-8 md:h-10 lg:h-11 w-auto"
                   />
                 ) : (
-                  <span className="font-mono font-bold">{brand.name}</span>
+                  <span className="font-degular font-bold">{brand.name}</span>
                 )}
               </motion.button>
             </AnimatePresence>
-            <span className="relative w-full h-[2px] mt-1 rounded-full overflow-hidden bg-white/[0.06]">
+            <span className="relative w-full h-[2px] mt-1.5 rounded-full overflow-hidden bg-white/[0.04]">
               <motion.span
                 key={progressKey}
                 ref={progressRef}
                 className="absolute inset-y-0 left-0 rounded-full"
-                style={{ backgroundColor: brand.color }}
+                style={{ backgroundColor: brand.color, opacity: 0.7 }}
                 initial={{ width: "0%" }}
                 animate={{ width: "100%" }}
                 transition={{
@@ -106,7 +107,7 @@ export function Hero({ activeBrand, onBrandChange }: HeroProps) {
               />
             </span>
           </span>{" "}
-          originals
+          <span className="text-white/50">originals</span>
         </h1>
       </div>
     </section>

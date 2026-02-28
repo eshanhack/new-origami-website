@@ -16,7 +16,7 @@ export default function Home() {
   const [activeGame, setActiveGame] = useState("MINES");
 
   return (
-    <main className="min-h-screen bg-black">
+    <main className="relative min-h-screen bg-[#050505]">
       <Header />
       <Hero activeBrand={activeBrand} onBrandChange={setActiveBrand} />
       <GameViewer

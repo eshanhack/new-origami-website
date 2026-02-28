@@ -33,24 +33,24 @@ export function Header() {
           : "bg-transparent"
       )}
     >
-      <nav className="mx-auto max-w-[1400px] px-6 lg:px-10 h-14 flex items-center justify-between">
+      <nav className="mx-auto max-w-[1400px] px-6 lg:px-10 h-16 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2.5 flex-shrink-0">
           <Image
             src="https://i.imgur.com/jRcM3MF.png"
             alt="Origami"
             width={140}
             height={32}
-            className="h-7 w-auto"
+            className="h-6 w-auto"
             priority
           />
         </a>
 
-        <div className="hidden lg:flex items-center gap-1">
+        <div className="hidden lg:flex items-center gap-0.5">
           {navItems.map((item) => (
             <a
               key={item.label}
               href={item.href}
-              className="px-3.5 py-2 text-[11px] font-medium text-white/45 hover:text-white tracking-[0.14em] transition-colors"
+              className="px-4 py-2 text-[10.5px] font-medium text-white/40 hover:text-white/90 tracking-[0.16em] transition-colors duration-200"
             >
               {item.label}
             </a>
@@ -59,7 +59,7 @@ export function Header() {
 
         <a
           href="#contact"
-          className="hidden lg:inline-flex px-5 py-2 text-[11px] font-medium text-white/60 tracking-[0.14em] border border-white/20 rounded-full hover:border-white/40 hover:text-white transition-all flex-shrink-0"
+          className="hidden lg:inline-flex px-5 py-1.5 text-[10.5px] font-medium text-white tracking-[0.16em] bg-white/[0.07] hover:bg-white/[0.12] rounded-full transition-all duration-200 flex-shrink-0"
         >
           CONTACT
         </a>
