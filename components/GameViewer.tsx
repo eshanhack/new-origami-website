@@ -90,9 +90,10 @@ export function GameViewer({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0c0c0c]"
+          className="mx-auto rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0c0c0c] aspect-[64/33] max-h-[52vh]"
+          style={{ maxWidth: "calc(52vh * 64 / 33)" }}
         >
-          <div className="relative aspect-[64/33] max-h-[52vh]">
+          <div className="relative w-full h-full">
             <AnimatePresence initial={false}>
               <motion.div
                 key={currentGame.id}
