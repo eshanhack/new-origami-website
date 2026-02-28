@@ -19,7 +19,7 @@ export function CTA() {
           <span className="text-xs font-medium text-white/30 uppercase tracking-[0.2em] block mb-6">
             [ The New Standard for Instant Casino Games ]
           </span>
-          <h2 className="font-degular text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] mb-10">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-[-0.03em] leading-[1.1] mb-10">
             Add Origami Originals
             <br />
             To Your Casino

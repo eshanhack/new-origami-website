@@ -65,7 +65,7 @@ export function Hero({ activeBrand, onBrandChange }: HeroProps) {
     <section className="relative pt-[76px] pb-5 md:pt-[88px] md:pb-6 px-6">
       <div className="hero-glow" />
       <div className="relative z-10 mx-auto max-w-[1400px]">
-        <h1 className="font-degular text-[28px] sm:text-4xl md:text-[48px] lg:text-[56px] font-bold tracking-[-0.02em] leading-[1.15] text-center">
+        <h1 className="text-[28px] sm:text-4xl md:text-[48px] lg:text-[56px] font-extrabold tracking-[-0.03em] leading-[1.15] text-center">
           <span className="text-white/50">We power</span>{" "}
           <span className="inline-flex flex-col items-center align-baseline">
             <AnimatePresence mode="wait">
@@ -88,7 +88,7 @@ export function Hero({ activeBrand, onBrandChange }: HeroProps) {
                     className="h-7 sm:h-8 md:h-10 lg:h-11 w-auto"
                   />
                 ) : (
-                  <span className="font-degular font-bold">{brand.name}</span>
+                  <span className="font-extrabold">{brand.name}</span>
                 )}
               </motion.button>
             </AnimatePresence>

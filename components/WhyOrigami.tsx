@@ -112,7 +112,7 @@ function ReasonRow({
         {/* Stat */}
         <div className="relative">
           <p
-            className="font-degular text-4xl sm:text-5xl md:text-[56px] font-bold tracking-tighter leading-none transition-colors duration-500"
+            className="text-4xl sm:text-5xl md:text-[56px] font-extrabold tracking-[-0.04em] leading-none transition-colors duration-500"
             style={{ color: hovered ? reason.color : "white" }}
           >
             <CountUp target={reason.stat} inView={inView} />
@@ -192,7 +192,7 @@ export function WhyOrigami() {
           <span className="text-xs font-medium text-white/30 uppercase tracking-[0.2em] block mb-4">
             [ The Origami Advantage ]
           </span>
-          <h2 className="font-degular text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight max-w-2xl leading-[1.05]">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-[-0.03em] max-w-2xl leading-[1.05]">
             Built for scale.
             <br />
             <span className="text-white/30">Designed for trust.</span>
