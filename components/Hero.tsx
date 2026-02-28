@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
-const ROTATION_MS = 15000;
+const ROTATION_MS = 60000;
 
 const brands = [
   {
