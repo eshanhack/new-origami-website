@@ -64,9 +64,9 @@ export function Hero({ activeBrand, onBrandChange }: HeroProps) {
   return (
     <section className="pt-20 pb-4 md:pt-24 md:pb-5 px-6">
       <div className="mx-auto max-w-[1400px]">
-        <h1 className="font-degular text-[22px] sm:text-3xl md:text-[38px] lg:text-[44px] font-bold tracking-tight leading-snug">
+        <h1 className="font-degular text-[22px] sm:text-3xl md:text-[38px] lg:text-[44px] font-bold tracking-tight leading-snug text-center">
           We power{" "}
-          <span className="inline-flex flex-col items-start align-baseline">
+          <span className="inline-flex flex-col items-center align-baseline">
             <AnimatePresence mode="wait">
               <motion.button
                 key={brand.id}

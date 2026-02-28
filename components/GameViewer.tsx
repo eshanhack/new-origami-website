@@ -115,7 +115,7 @@ export function GameViewer({
           transition={{ duration: 0.5, delay: 0.15 }}
           className="mt-4 overflow-x-auto scrollbar-hide -mx-6 px-6 pt-5 pb-3"
         >
-          <div className="flex gap-3 w-max items-end">
+          <div className="flex gap-3 items-end justify-center">
             {games.map((game) => {
               const isActive = game.id === activeGame;
               return (
