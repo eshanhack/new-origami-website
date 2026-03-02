@@ -2,7 +2,6 @@
 
 import { useRef, useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { CasinoLobby } from "./CasinoLobby";
 
@@ -127,7 +126,6 @@ export function GameViewer({
   activeBrand,
 }: GameViewerProps) {
   const [readySet, setReadySet] = useState<Set<string>>(new Set());
-  const allReady = readySet.size === games.length;
   const activeReady = readySet.has(activeGame);
 
   const markReady = useCallback((id: string) => {
@@ -181,55 +179,6 @@ export function GameViewer({
           </motion.div>
         </div>
 
-        {/* Thumbnails */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.15 }}
-          className="mt-6 overflow-x-auto scrollbar-hide"
-        >
-          <div className="flex gap-2.5 items-end justify-center pt-6 pb-1">
-            {games.map((game) => {
-              const isActive = game.id === activeGame;
-              const ready = readySet.has(game.id);
-              return (
-                <button
-                  key={game.id}
-                  onClick={() => onGameChange(game.id)}
-                  className="group relative flex-shrink-0 rounded-xl transition-all duration-300 text-center w-[90px] sm:w-[105px] md:w-[120px]"
-                >
-                  <div
-                    className={cn(
-                      "thumb-glow relative rounded-xl overflow-hidden transition-all duration-300 aspect-[5/7]",
-                      isActive
-                        ? "thumb-active thumb-floating"
-                        : "group-hover:-translate-y-2"
-                    )}
-                  >
-                    <Image
-                      src={game.thumbnail}
-                      alt={game.name}
-                      fill
-                      className="object-cover"
-                      sizes="120px"
-                    />
-                    {!ready && !allReady && (
-                      <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-white/30 animate-pulse" />
-                    )}
-                  </div>
-                  <span
-                    className={cn(
-                      "block mt-1.5 text-[9px] font-medium tracking-[0.1em] uppercase transition-colors duration-200",
-                      isActive ? "text-white/70" : "text-white/25"
-                    )}
-                  >
-                    {game.name}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </motion.div>
       </div>
     </section>
   );
