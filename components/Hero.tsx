@@ -66,7 +66,7 @@ export function Hero({ activeBrand, onBrandChange }: HeroProps) {
       <div className="relative z-10 mx-auto max-w-[1400px]">
         <h1 className="text-lg sm:text-xl md:text-2xl lg:text-[28px] font-normal tracking-[-0.01em] leading-relaxed text-center text-white">
           We power{" "}
-          <span className="inline-flex flex-col items-center align-baseline">
+          <span className="inline-flex flex-col items-center align-middle mx-1">
             <AnimatePresence mode="wait">
               <motion.button
                 key={brand.id}
@@ -89,7 +89,7 @@ export function Hero({ activeBrand, onBrandChange }: HeroProps) {
                 )}
               </motion.button>
             </AnimatePresence>
-            <span className="relative w-full h-px mt-1 rounded-full overflow-hidden bg-white/[0.06]">
+            <span className="relative w-full h-px mt-2.5 rounded-full overflow-hidden bg-white/[0.06]">
               <motion.span
                 key={progressKey}
                 ref={progressRef}
