@@ -105,11 +105,11 @@ function FallbackVideo({
   );
 }
 
-async function fetchGameSession(game: string): Promise<string> {
+async function fetchGameSession(game: string, brand: string): Promise<string> {
   const res = await fetch("/api/game-session", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ game }),
+    body: JSON.stringify({ game, brand }),
   });
   if (!res.ok) throw new Error(`Session failed: ${res.status}`);
   const data = await res.json();
@@ -135,7 +135,7 @@ export function GameViewer({
 
   const isLiveDemo = !LIVE_DEMO_EXCLUDED.has(activeGame);
 
-  const loadSession = useCallback(async (game: string) => {
+  const loadSession = useCallback(async (game: string, brand: string) => {
     if (LIVE_DEMO_EXCLUDED.has(game)) {
       setIframeUrl(null);
       setLoading(false);
@@ -149,7 +149,7 @@ export function GameViewer({
     setIframeUrl(null);
 
     try {
-      const url = await fetchGameSession(game);
+      const url = await fetchGameSession(game, brand);
       if (requestId.current !== thisRequest) return;
       setIframeUrl(url);
       setIframeKey((k) => k + 1);
@@ -161,16 +161,16 @@ export function GameViewer({
   }, []);
 
   useEffect(() => {
-    loadSession(activeGame);
-  }, [activeGame, loadSession]);
+    loadSession(activeGame, activeBrand);
+  }, [activeGame, activeBrand, loadSession]);
 
   const handleIframeLoad = useCallback(() => {
     setLoading(false);
   }, []);
 
   const handleRetry = useCallback(() => {
-    loadSession(activeGame);
-  }, [activeGame, loadSession]);
+    loadSession(activeGame, activeBrand);
+  }, [activeGame, activeBrand, loadSession]);
 
   return (
     <section id="games" className="pb-6 md:pb-10 px-6">

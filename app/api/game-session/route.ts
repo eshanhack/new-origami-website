@@ -36,7 +36,29 @@ async function createSession(
   });
 }
 
-function applyShuffleTheme(url: string): string {
+const BRAND_THEMES: Record<string, { theme: string; logoUrl: string | null }> = {
+  bitcasino: {
+    theme: "bitcasino.css?v=3",
+    logoUrl: "https://assets.betorigami.com/logos/bitcasino.svg",
+  },
+  cloudbet: {
+    theme: "cloudbet.css?v=3",
+    logoUrl: "https://assets.betorigami.com/logos/cloudbet.svg",
+  },
+  csgo500: {
+    theme: "csgo500.css?v=3",
+    logoUrl: null,
+  },
+  metaspins: {
+    theme: "metaspins.css?v=3",
+    logoUrl: null,
+  },
+};
+
+function applyBrandTheme(url: string, brand: string): string {
+  const brandConfig = BRAND_THEMES[brand];
+  if (!brandConfig) return url;
+
   try {
     const parsed = new URL(url);
     const settingsB64 = parsed.searchParams.get("settings");
@@ -46,8 +68,10 @@ function applyShuffleTheme(url: string): string {
       Buffer.from(decodeURIComponent(settingsB64), "base64").toString()
     );
 
-    settings.theme = "shuffle.css";
-    settings.logoUrl = "https://i.imgur.com/UzEEQwC.png";
+    settings.theme = brandConfig.theme;
+    if (brandConfig.logoUrl) {
+      settings.logoUrl = brandConfig.logoUrl;
+    }
 
     const newB64 = Buffer.from(JSON.stringify(settings)).toString("base64");
     parsed.searchParams.set("settings", newB64);
@@ -59,7 +83,7 @@ function applyShuffleTheme(url: string): string {
 
 export async function POST(req: NextRequest) {
   try {
-    const { game } = await req.json();
+    const { game, brand } = await req.json();
 
     if (!game || typeof game !== "string") {
       return NextResponse.json({ error: "Missing game" }, { status: 400 });
@@ -86,7 +110,7 @@ export async function POST(req: NextRequest) {
     }
 
     const data = await res.json();
-    const themedUrl = applyShuffleTheme(data.url);
+    const themedUrl = applyBrandTheme(data.url, brand || "shuffle");
     return NextResponse.json({ url: themedUrl });
   } catch (e) {
     console.error("Game session error:", e);
