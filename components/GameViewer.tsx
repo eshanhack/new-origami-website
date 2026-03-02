@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { CasinoLobby } from "./CasinoLobby";
 
+const LIVE_DEMO_EXCLUDED = new Set(["BLACKJACK"]);
+
 const games = [
   {
     id: "DICE",
@@ -63,27 +65,16 @@ function OrigamiSpinner() {
   );
 }
 
-function PreloadedVideo({
+function FallbackVideo({
   src,
   name,
   active,
-  onReady,
 }: {
   src: string;
   name: string;
   active: boolean;
-  onReady: () => void;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const v = ref.current;
-    if (!v) return;
-
-    const handleCanPlay = () => onReady();
-    v.addEventListener("canplaythrough", handleCanPlay);
-    return () => v.removeEventListener("canplaythrough", handleCanPlay);
-  }, [onReady]);
 
   useEffect(() => {
     const v = ref.current;
@@ -104,14 +95,25 @@ function PreloadedVideo({
       playsInline
       preload="auto"
       className={cn(
-        "absolute inset-0 w-full h-full object-cover transition-opacity duration-100",
-        active ? "opacity-100" : "opacity-0"
+        "absolute inset-0 w-full h-full object-cover transition-opacity duration-200",
+        active ? "opacity-100" : "opacity-0 pointer-events-none"
       )}
       aria-label={name}
     >
       <source src={src} type="video/mp4" />
     </video>
   );
+}
+
+async function fetchGameSession(game: string): Promise<string> {
+  const res = await fetch("/api/game-session", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ game }),
+  });
+  if (!res.ok) throw new Error(`Session failed: ${res.status}`);
+  const data = await res.json();
+  return data.url;
 }
 
 interface GameViewerProps {
@@ -125,24 +127,79 @@ export function GameViewer({
   onGameChange,
   activeBrand,
 }: GameViewerProps) {
-  const [readySet, setReadySet] = useState<Set<string>>(new Set());
-  const activeReady = readySet.has(activeGame);
+  const [iframeUrl, setIframeUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const sessionCache = useRef<Record<string, string>>({});
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  const markReady = useCallback((id: string) => {
-    setReadySet((prev) => {
-      if (prev.has(id)) return prev;
-      const next = new Set(prev);
-      next.add(id);
-      return next;
-    });
+  const isLiveDemo = !LIVE_DEMO_EXCLUDED.has(activeGame);
+
+  const loadSession = useCallback(async (game: string) => {
+    if (LIVE_DEMO_EXCLUDED.has(game)) {
+      setIframeUrl(null);
+      setLoading(false);
+      setError(false);
+      return;
+    }
+
+    if (sessionCache.current[game]) {
+      setIframeUrl(sessionCache.current[game]);
+      setLoading(false);
+      setError(false);
+      return;
+    }
+
+    setLoading(true);
+    setError(false);
+    try {
+      const url = await fetchGameSession(game);
+      sessionCache.current[game] = url;
+      setIframeUrl(url);
+      setLoading(false);
+    } catch {
+      setError(true);
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    loadSession(activeGame);
+  }, [activeGame, loadSession]);
+
+  // Prefetch sessions for other games in the background
+  useEffect(() => {
+    const prefetchTimeout = setTimeout(() => {
+      games.forEach((game) => {
+        if (
+          !LIVE_DEMO_EXCLUDED.has(game.id) &&
+          !sessionCache.current[game.id]
+        ) {
+          fetchGameSession(game.id)
+            .then((url) => {
+              sessionCache.current[game.id] = url;
+            })
+            .catch(() => {});
+        }
+      });
+    }, 2000);
+    return () => clearTimeout(prefetchTimeout);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleIframeLoad = useCallback(() => {
+    setLoading(false);
+  }, []);
+
+  const handleRetry = useCallback(() => {
+    delete sessionCache.current[activeGame];
+    loadSession(activeGame);
+  }, [activeGame, loadSession]);
 
   return (
     <section id="games" className="pb-6 md:pb-10 px-6">
       <div className="mx-auto max-w-[1400px]">
-        {/* Side-by-side: Video + Casino Lobby */}
         <div className="flex flex-col lg:flex-row gap-4 lg:gap-5 items-stretch">
-          {/* Video player — left */}
+          {/* Game display — left */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -150,17 +207,51 @@ export function GameViewer({
             className="video-glow rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0c0c0c] w-full lg:w-[58%] flex-shrink-0"
           >
             <div className="relative w-full aspect-[64/33]">
-              {!activeReady && <OrigamiSpinner />}
+              {/* Spinner while loading */}
+              {loading && <OrigamiSpinner />}
 
-              {games.map((game) => (
-                <PreloadedVideo
-                  key={game.id}
-                  src={game.video}
-                  name={game.name}
-                  active={game.id === activeGame}
-                  onReady={() => markReady(game.id)}
+              {/* Error state with retry */}
+              {error && !loading && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0c0c0c] z-10 gap-3">
+                  <span className="text-white/40 text-sm">
+                    Failed to load demo
+                  </span>
+                  <button
+                    onClick={handleRetry}
+                    className="px-4 py-1.5 text-xs font-medium text-white/70 bg-white/[0.08] hover:bg-white/[0.12] rounded-full transition-colors"
+                  >
+                    Retry
+                  </button>
+                </div>
+              )}
+
+              {/* Live iframe for supported games */}
+              {isLiveDemo && iframeUrl && (
+                <iframe
+                  ref={iframeRef}
+                  src={iframeUrl}
+                  className={cn(
+                    "absolute inset-0 w-full h-full border-0 transition-opacity duration-300",
+                    loading ? "opacity-0" : "opacity-100"
+                  )}
+                  onLoad={handleIframeLoad}
+                  allow="autoplay"
+                  sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
                 />
-              ))}
+              )}
+
+              {/* Video fallback for excluded games */}
+              {!isLiveDemo &&
+                games
+                  .filter((g) => LIVE_DEMO_EXCLUDED.has(g.id))
+                  .map((game) => (
+                    <FallbackVideo
+                      key={game.id}
+                      src={game.video}
+                      name={game.name}
+                      active={game.id === activeGame}
+                    />
+                  ))}
             </div>
           </motion.div>
 
@@ -178,7 +269,6 @@ export function GameViewer({
             />
           </motion.div>
         </div>
-
       </div>
     </section>
   );
