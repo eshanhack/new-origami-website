@@ -163,17 +163,21 @@ export function GameViewer({
           </div>
         </motion.div>
 
-        {/* Powered by Origami — thumbnail strip */}
+        {/* Thumbnail strip with highlight */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="relative mt-6 mx-auto rounded-2xl border border-white/[0.06] bg-gradient-to-b from-white/[0.03] to-transparent p-4 pt-10 sm:pt-10 md:p-5 md:pt-11"
+          className="relative mt-6 mx-auto"
           style={{ maxWidth: "calc(52vh * 64 / 33)" }}
         >
-          {/* Tab */}
-          <div className="absolute -top-px left-5 flex items-center gap-1.5 bg-[#0a0a0a] border border-white/[0.08] border-b-0 rounded-t-lg px-3 py-1.5">
-            <svg viewBox="0 0 1012 1012" className="w-3.5 h-3.5 text-white/70">
+          {/* Gradient highlight behind thumbnails */}
+          <div className="absolute inset-0 -inset-x-3 top-6 rounded-2xl bg-gradient-to-r from-[#7C5CFC]/[0.07] via-[#7C5CFC]/[0.12] to-[#7C5CFC]/[0.07]" />
+          <div className="absolute inset-0 -inset-x-3 top-6 rounded-2xl bg-gradient-to-t from-transparent via-white/[0.02] to-white/[0.04]" />
+
+          {/* Powered by pill */}
+          <div className="relative z-10 flex items-center gap-1.5 w-fit mb-2 ml-1 px-2.5 py-1 rounded-full bg-white/[0.06] backdrop-blur-sm">
+            <svg viewBox="0 0 1012 1012" className="w-3 h-3 text-white/60">
               <path
                 fill="currentColor"
                 fillRule="evenodd"
@@ -181,14 +185,14 @@ export function GameViewer({
                 clipRule="evenodd"
               />
             </svg>
-            <span className="text-[10px] font-medium text-white/50 tracking-wide">
+            <span className="text-[10px] font-medium text-white/40 leading-none">
               Powered by <span className="text-white/80">Origami</span>
             </span>
           </div>
 
           {/* Thumbnails */}
-          <div className="overflow-x-auto scrollbar-hide">
-            <div className="flex gap-3 items-end justify-center pt-1 pb-1">
+          <div className="relative z-10 overflow-x-auto scrollbar-hide">
+            <div className="flex gap-2.5 items-end justify-center py-2">
               {games.map((game) => {
                 const isActive = game.id === activeGame;
                 const ready = readySet.has(game.id);
@@ -197,37 +201,23 @@ export function GameViewer({
                     key={game.id}
                     onClick={() => onGameChange(game.id)}
                     className={cn(
-                      "group relative flex-shrink-0 rounded-xl transition-all duration-300 text-center",
-                      "w-[90px] sm:w-[105px] md:w-[120px]"
+                      "thumb-glow group relative flex-shrink-0 rounded-xl overflow-hidden transition-all duration-300",
+                      "w-[105px] h-[147px] sm:w-[118px] sm:h-[165px] md:w-[130px] md:h-[182px]",
+                      isActive
+                        ? "thumb-active thumb-floating"
+                        : "group-hover:-translate-y-1.5"
                     )}
                   >
-                    <div
-                      className={cn(
-                        "thumb-glow relative rounded-xl overflow-hidden transition-all duration-300 aspect-[5/7]",
-                        isActive
-                          ? "thumb-active thumb-floating"
-                          : "group-hover:-translate-y-2"
-                      )}
-                    >
-                      <Image
-                        src={game.thumbnail}
-                        alt={game.name}
-                        fill
-                        className="object-cover"
-                        sizes="120px"
-                      />
-                      {!ready && !allReady && (
-                        <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-white/30 animate-pulse" />
-                      )}
-                    </div>
-                    <span
-                      className={cn(
-                        "block mt-1.5 text-[9px] font-medium tracking-[0.1em] uppercase transition-colors duration-200",
-                        isActive ? "text-white/70" : "text-white/25"
-                      )}
-                    >
-                      {game.name}
-                    </span>
+                    <Image
+                      src={game.thumbnail}
+                      alt={game.name}
+                      fill
+                      className="object-cover"
+                      sizes="130px"
+                    />
+                    {!ready && !allReady && (
+                      <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-white/30 animate-pulse" />
+                    )}
                   </button>
                 );
               })}
