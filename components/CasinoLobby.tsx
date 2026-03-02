@@ -105,7 +105,28 @@ export function CasinoLobby({ activeBrand, activeGame, onGameChange }: CasinoLob
   const config = brandConfigs[activeBrand] || brandConfigs.shuffle;
 
   return (
-    <div className="h-full flex flex-col rounded-xl overflow-hidden border border-white/[0.06]">
+    <div className="h-full flex flex-col">
+      {/* "As seen on" label */}
+      <div className="flex items-center gap-2 mb-2">
+        <span className="text-[9px] font-medium text-white/30 uppercase tracking-[0.15em]">
+          As seen on
+        </span>
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={activeBrand}
+            initial={{ opacity: 0, x: -4 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 4 }}
+            transition={{ duration: 0.2 }}
+            className="text-[9px] font-semibold uppercase tracking-[0.15em]"
+            style={{ color: config.accent }}
+          >
+            {config.name}.com
+          </motion.span>
+        </AnimatePresence>
+      </div>
+
+      <div className="flex-1 flex flex-col rounded-xl overflow-hidden border border-white/[0.06]">
       {/* Browser chrome */}
       <div
         className="flex items-center gap-2 px-3 py-2 border-b border-white/[0.06]"
@@ -207,12 +228,6 @@ export function CasinoLobby({ activeBrand, activeGame, onGameChange }: CasinoLob
 
             {/* Game cards row */}
             <div className="relative">
-              {/* Highlight glow behind the row */}
-              <div
-                className="absolute -inset-1.5 rounded-xl opacity-30 blur-md"
-                style={{ background: `linear-gradient(135deg, ${config.accent}15, ${config.accent}08)` }}
-              />
-
               <div className="relative flex gap-1.5 overflow-hidden">
                 {games.map((game) => {
                   const isActive = game.id === activeGame;
@@ -220,13 +235,33 @@ export function CasinoLobby({ activeBrand, activeGame, onGameChange }: CasinoLob
                     <button
                       key={game.id}
                       onClick={() => onGameChange(game.id)}
-                      className="relative flex-1 min-w-0 rounded-lg overflow-hidden transition-all duration-200 group"
-                      style={{
-                        boxShadow: isActive ? `0 0 12px ${config.accent}40, 0 0 4px ${config.accent}20` : "none",
-                        outline: isActive ? `1.5px solid ${config.accent}60` : "1px solid rgba(255,255,255,0.04)",
-                      }}
+                      className={cn(
+                        "relative flex-1 min-w-0 rounded-lg transition-all duration-300 group",
+                        isActive ? "z-10 scale-105" : "opacity-60 hover:opacity-90"
+                      )}
                     >
-                      <div className="aspect-[3/4] relative">
+                      {/* Accent glow behind selected card */}
+                      {isActive && (
+                        <div
+                          className="absolute -inset-1 rounded-xl blur-md animate-pulse"
+                          style={{
+                            background: `radial-gradient(circle, ${config.accent}50, ${config.accent}10)`,
+                            animationDuration: "2.5s",
+                          }}
+                        />
+                      )}
+
+                      <div
+                        className="relative aspect-[3/4] rounded-lg overflow-hidden"
+                        style={{
+                          boxShadow: isActive
+                            ? `0 0 20px ${config.accent}50, 0 0 40px ${config.accent}20, inset 0 0 20px ${config.accent}10`
+                            : "none",
+                          border: isActive
+                            ? `2px solid ${config.accent}`
+                            : "1px solid rgba(255,255,255,0.06)",
+                        }}
+                      >
                         <Image
                           src={game.thumbnail}
                           alt={game.name}
@@ -234,6 +269,18 @@ export function CasinoLobby({ activeBrand, activeGame, onGameChange }: CasinoLob
                           className="object-cover group-hover:scale-105 transition-transform duration-300"
                           sizes="100px"
                         />
+
+                        {/* Now playing badge */}
+                        {isActive && (
+                          <div
+                            className="absolute top-1 left-1/2 -translate-x-1/2 flex items-center gap-0.5 px-1.5 py-0.5 rounded-full backdrop-blur-sm"
+                            style={{ background: config.accent + "CC" }}
+                          >
+                            <span className="w-1 h-1 rounded-full bg-white animate-pulse" />
+                            <span className="text-[5px] font-bold text-white uppercase tracking-wider leading-none">Live</span>
+                          </div>
+                        )}
+
                         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent pt-4 pb-1 px-1">
                           <span className="text-[6px] sm:text-[7px] font-bold text-white/90 block text-center leading-tight">
                             {game.name}
@@ -267,6 +314,7 @@ export function CasinoLobby({ activeBrand, activeGame, onGameChange }: CasinoLob
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
