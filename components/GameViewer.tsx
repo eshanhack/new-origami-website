@@ -128,10 +128,10 @@ export function GameViewer({
   activeBrand,
 }: GameViewerProps) {
   const [iframeUrl, setIframeUrl] = useState<string | null>(null);
+  const [iframeKey, setIframeKey] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const sessionCache = useRef<Record<string, string>>({});
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const requestId = useRef(0);
 
   const isLiveDemo = !LIVE_DEMO_EXCLUDED.has(activeGame);
 
@@ -143,21 +143,18 @@ export function GameViewer({
       return;
     }
 
-    if (sessionCache.current[game]) {
-      setIframeUrl(sessionCache.current[game]);
-      setLoading(false);
-      setError(false);
-      return;
-    }
-
+    const thisRequest = ++requestId.current;
     setLoading(true);
     setError(false);
+    setIframeUrl(null);
+
     try {
       const url = await fetchGameSession(game);
-      sessionCache.current[game] = url;
+      if (requestId.current !== thisRequest) return;
       setIframeUrl(url);
-      setLoading(false);
+      setIframeKey((k) => k + 1);
     } catch {
+      if (requestId.current !== thisRequest) return;
       setError(true);
       setLoading(false);
     }
@@ -167,31 +164,11 @@ export function GameViewer({
     loadSession(activeGame);
   }, [activeGame, loadSession]);
 
-  // Prefetch sessions for other games in the background
-  useEffect(() => {
-    const prefetchTimeout = setTimeout(() => {
-      games.forEach((game) => {
-        if (
-          !LIVE_DEMO_EXCLUDED.has(game.id) &&
-          !sessionCache.current[game.id]
-        ) {
-          fetchGameSession(game.id)
-            .then((url) => {
-              sessionCache.current[game.id] = url;
-            })
-            .catch(() => {});
-        }
-      });
-    }, 2000);
-    return () => clearTimeout(prefetchTimeout);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   const handleIframeLoad = useCallback(() => {
     setLoading(false);
   }, []);
 
   const handleRetry = useCallback(() => {
-    delete sessionCache.current[activeGame];
     loadSession(activeGame);
   }, [activeGame, loadSession]);
 
@@ -228,7 +205,7 @@ export function GameViewer({
               {/* Live iframe for supported games */}
               {isLiveDemo && iframeUrl && (
                 <iframe
-                  ref={iframeRef}
+                  key={iframeKey}
                   src={iframeUrl}
                   className={cn(
                     "absolute inset-0 w-full h-full border-0 transition-opacity duration-300",
