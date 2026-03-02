@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
 
 const ROTATION_MS = 60000;
 
@@ -11,7 +10,7 @@ const brands = [
     id: "shuffle",
     name: "SHUFFLE",
     color: "#7C5CFC",
-    logo: "https://i.imgur.com/UzEEQwC.png",
+    logo: "/brands/shuffle.svg",
   },
   { id: "bitcasino", name: "BITCASINO", color: "#FF6B35", logo: null },
   { id: "cloudbet", name: "CLOUDBET", color: "#00D4FF", logo: null },
@@ -80,11 +79,9 @@ export function Hero({ activeBrand, onBrandChange }: HeroProps) {
                 style={{ color: brand.color }}
               >
                 {brand.logo ? (
-                  <Image
+                  <img
                     src={brand.logo}
                     alt={brand.name}
-                    width={160}
-                    height={32}
                     className="h-5 sm:h-5 md:h-6 lg:h-7 w-auto"
                   />
                 ) : (
