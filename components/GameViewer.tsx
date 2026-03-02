@@ -4,6 +4,7 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { CasinoLobby } from "./CasinoLobby";
 
 const games = [
   {
@@ -123,6 +124,7 @@ interface GameViewerProps {
 export function GameViewer({
   activeGame,
   onGameChange,
+  activeBrand,
 }: GameViewerProps) {
   const [readySet, setReadySet] = useState<Set<string>>(new Set());
   const allReady = readySet.size === games.length;
@@ -140,36 +142,51 @@ export function GameViewer({
   return (
     <section id="games" className="pb-6 md:pb-10 px-6">
       <div className="mx-auto max-w-[1400px]">
-        {/* Game video display */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="video-glow mx-auto rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0c0c0c] aspect-[64/33] max-h-[52vh]"
-          style={{ maxWidth: "calc(52vh * 64 / 33)" }}
-        >
-          <div className="relative w-full h-full">
-            {!activeReady && <OrigamiSpinner />}
+        {/* Side-by-side: Video + Casino Lobby */}
+        <div className="flex flex-col lg:flex-row gap-4 lg:gap-5 items-stretch">
+          {/* Video player — left */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="video-glow rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0c0c0c] w-full lg:w-[58%] flex-shrink-0"
+          >
+            <div className="relative w-full aspect-[64/33]">
+              {!activeReady && <OrigamiSpinner />}
 
-            {games.map((game) => (
-              <PreloadedVideo
-                key={game.id}
-                src={game.video}
-                name={game.name}
-                active={game.id === activeGame}
-                onReady={() => markReady(game.id)}
-              />
-            ))}
-          </div>
-        </motion.div>
+              {games.map((game) => (
+                <PreloadedVideo
+                  key={game.id}
+                  src={game.video}
+                  name={game.name}
+                  active={game.id === activeGame}
+                  onReady={() => markReady(game.id)}
+                />
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Casino lobby mockup — right */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="hidden lg:block flex-1 min-w-0"
+          >
+            <CasinoLobby
+              activeBrand={activeBrand}
+              activeGame={activeGame}
+              onGameChange={onGameChange}
+            />
+          </motion.div>
+        </div>
 
         {/* Thumbnails */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="mt-6 mx-auto overflow-x-auto scrollbar-hide"
-          style={{ maxWidth: "calc(52vh * 64 / 33)" }}
+          className="mt-6 overflow-x-auto scrollbar-hide"
         >
           <div className="flex gap-2.5 items-end justify-center pt-6 pb-1">
             {games.map((game) => {
