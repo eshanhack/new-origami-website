@@ -1,17 +1,10 @@
 import type { Metadata } from "next";
-import { Space_Mono } from "next/font/google";
-import localFont from "next/font/local";
+import { Inter, Space_Mono } from "next/font/google";
 import "./globals.css";
 
-const openaiSans = localFont({
-  src: [
-    { path: "../public/fonts/OpenAISans-Regular.woff2", weight: "400", style: "normal" },
-    { path: "../public/fonts/OpenAISans-Medium.woff2", weight: "500", style: "normal" },
-    { path: "../public/fonts/OpenAISans-Semibold.woff2", weight: "600", style: "normal" },
-    { path: "../public/fonts/OpenAISans-Bold.woff2", weight: "700", style: "normal" },
-  ],
+const inter = Inter({
+  subsets: ["latin"],
   variable: "--font-sans",
-  display: "swap",
 });
 
 const spaceMono = Space_Mono({
@@ -34,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${openaiSans.variable} ${spaceMono.variable} font-sans antialiased`}
+        className={`${inter.variable} ${spaceMono.variable} font-sans antialiased`}
       >
         {children}
       </body>
