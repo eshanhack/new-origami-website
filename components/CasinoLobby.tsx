@@ -204,7 +204,7 @@ export function CasinoLobby({ activeBrand, activeGame, onGameChange }: CasinoLob
           </div>
 
           {/* Originals section */}
-          <div className="flex-1 min-h-0 px-3 pt-2.5 pb-2 overflow-hidden">
+          <div className="flex-1 min-h-0 px-3 pt-2.5 pb-2 overflow-x-hidden overflow-y-auto">
             {/* Section header */}
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-1.5">
@@ -228,7 +228,7 @@ export function CasinoLobby({ activeBrand, activeGame, onGameChange }: CasinoLob
 
             {/* Game cards row */}
             <div className="relative">
-              <div className="relative flex gap-1.5 overflow-hidden">
+              <div className="relative flex gap-1.5 overflow-visible">
                 {games.map((game) => {
                   const isActive = game.id === activeGame;
                   return (
