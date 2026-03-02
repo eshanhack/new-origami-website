@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+body {
+    --primary-color: #886CFF;
+    --success-color: #20F764;
+    --warning-color: #F59E0B;
+    --danger-color: #E83A3A;
+    --info-color: #3B82F6;
+    --secondary-text-color: #9B9BB0;
+    --primary-text-color: #FFFFFF;
+    --background-base: #0D0D15;
+    --background-secondary: #151521;
+    --background-tertiary: #1A1A2A;
+    --background-quaternary: #22223A;
+    --background-quinary: #2E2E4A;
+    --primary-button-text-color: #FFFFFF;
+    --secondary-button-text-color: #B8A5FF;
+    --border-radius: 8px;
+    --font-family: Inter, system-ui, -apple-system, sans-serif;
+
+    --keno-tile-normal-bg: #1A1A2A;
+    --keno-tile-rear-bg: #0D0D15;
+    --keno-tile-selected-bg: #886CFF;
+    --keno-tile-hover-bg: #2E2E4A;
+
+    --button-border-radius: 8px;
+    --toggle-active-bg: #2A2250;
+    --toggle-bg: #1A1A2A;
+    --footer-logo-height: 17px;
+
+    --layout-divider: #1E1E32;
+    --games-action-section-justify-content: flex-start;
+    --games-action-section-margin-top: 0;
+    --dice-slider-thumb-background: #886CFF;
+    --button-hover-color: rgba(136, 108, 255, 0.7);
+
+    --toggle-button-color: #7A7A95;
+    --toggle-button-selected-color: #E0E0F0;
+}

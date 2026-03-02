@@ -36,6 +36,28 @@ async function createSession(
   });
 }
 
+function applyShuffleTheme(url: string, req: NextRequest): string {
+  try {
+    const parsed = new URL(url);
+    const settingsB64 = parsed.searchParams.get("settings");
+    if (!settingsB64) return url;
+
+    const settings = JSON.parse(
+      Buffer.from(decodeURIComponent(settingsB64), "base64").toString()
+    );
+
+    const origin = req.headers.get("origin") || req.nextUrl.origin;
+    settings.theme = `${origin}/themes/shuffle.css`;
+    settings.logoUrl = "https://i.imgur.com/UzEEQwC.png";
+
+    const newB64 = Buffer.from(JSON.stringify(settings)).toString("base64");
+    parsed.searchParams.set("settings", newB64);
+    return parsed.toString();
+  } catch {
+    return url;
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { game } = await req.json();
@@ -65,7 +87,8 @@ export async function POST(req: NextRequest) {
     }
 
     const data = await res.json();
-    return NextResponse.json({ url: data.url });
+    const themedUrl = applyShuffleTheme(data.url, req);
+    return NextResponse.json({ url: themedUrl });
   } catch (e) {
     console.error("Game session error:", e);
     return NextResponse.json(
