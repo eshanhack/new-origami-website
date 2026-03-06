@@ -74,7 +74,7 @@ const BRAND_FRAMES: Record<
     footerBg: "rgba(28, 18, 12, 0.92)",
     outline: "rgba(242, 89, 13, 0.22)",
     label: "BITCASINO.IO",
-    logo: "/brands/bitcasino-footer.svg",
+    logo: "/brands/bitcasino.svg",
   },
   cloudbet: {
     accent: "#DFFD51",
@@ -83,7 +83,7 @@ const BRAND_FRAMES: Record<
     footerBg: "rgba(22, 22, 18, 0.94)",
     outline: "rgba(223, 253, 81, 0.22)",
     label: "CLOUDBET.COM",
-    logo: "/brands/cloudbet-footer.svg",
+    logo: "/brands/cloudbet.webp",
   },
   csgo500: {
     accent: "#FE617C",
@@ -92,7 +92,7 @@ const BRAND_FRAMES: Record<
     footerBg: "rgba(24, 14, 18, 0.94)",
     outline: "rgba(254, 97, 124, 0.22)",
     label: "CSGO500.COM",
-    logo: "/brands/csgo500-footer.svg",
+    logo: "/brands/csgo500.png",
   },
   metaspins: {
     accent: "#BE20FF",
@@ -101,7 +101,7 @@ const BRAND_FRAMES: Record<
     footerBg: "rgba(18, 12, 24, 0.94)",
     outline: "rgba(190, 32, 255, 0.22)",
     label: "METASPINS.COM",
-    logo: "/brands/metaspins-footer.svg",
+    logo: "/brands/metaspins.svg",
   },
 };
 

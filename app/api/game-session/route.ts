@@ -43,19 +43,19 @@ const BRAND_THEMES: Record<string, { theme: string | null; logoPath: string | nu
   },
   bitcasino: {
     theme: "bitcasino.css?v=3",
-    logoPath: "/brands/bitcasino-footer.svg",
+    logoPath: "/brands/bitcasino.svg",
   },
   cloudbet: {
     theme: "cloudbet.css?v=3",
-    logoPath: "/brands/cloudbet-footer.svg",
+    logoPath: "/brands/cloudbet.webp",
   },
   csgo500: {
     theme: "csgo500.css?v=3",
-    logoPath: "/brands/csgo500-footer.svg",
+    logoPath: "/brands/csgo500.png",
   },
   metaspins: {
     theme: "metaspins.css?v=3",
-    logoPath: "/brands/metaspins-footer.svg",
+    logoPath: "/brands/metaspins.svg",
   },
 };
 

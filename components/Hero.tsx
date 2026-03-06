@@ -12,10 +12,30 @@ const brands = [
     color: "#7C5CFC",
     logo: "/brands/shuffle.svg",
   },
-  { id: "bitcasino", name: "BITCASINO", color: "#FF6B35", logo: null },
-  { id: "cloudbet", name: "CLOUDBET", color: "#00D4FF", logo: null },
-  { id: "csgo500", name: "CSGO500", color: "#F5C518", logo: null },
-  { id: "metaspins", name: "METASPINS", color: "#00FF88", logo: null },
+  {
+    id: "bitcasino",
+    name: "BITCASINO",
+    color: "#FF6B35",
+    logo: "/brands/bitcasino.svg",
+  },
+  {
+    id: "cloudbet",
+    name: "CLOUDBET",
+    color: "#DFFD51",
+    logo: "/brands/cloudbet.webp",
+  },
+  {
+    id: "csgo500",
+    name: "CSGO500",
+    color: "#FE617C",
+    logo: "/brands/csgo500.png",
+  },
+  {
+    id: "metaspins",
+    name: "METASPINS",
+    color: "#BE20FF",
+    logo: "/brands/metaspins.svg",
+  },
 ];
 
 interface HeroProps {
