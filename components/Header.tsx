@@ -7,11 +7,11 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { label: "GAMES", href: "#games" },
-  { label: "CUSTOMISATION", href: "#quickstart" },
-  { label: "INTEGRATION", href: "#quickstart" },
-  { label: "PROVABLY FAIR", href: "#company" },
-  { label: "BANKROLL", href: "#contact" },
+  { label: "LIVE PRODUCT", href: "#games" },
+  { label: "HOW IT WORKS", href: "#how-it-works" },
+  { label: "CAPABILITIES", href: "#quickstart" },
+  { label: "TRUST", href: "#company" },
+  { label: "CONTACT", href: "#contact" },
 ];
 
 export function Header() {

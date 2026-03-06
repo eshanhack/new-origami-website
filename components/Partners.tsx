@@ -57,17 +57,24 @@ export function Partners() {
           transition={{ duration: 0.5 }}
         >
           <span className="text-xs font-medium text-white/30 uppercase tracking-[0.2em] block mb-4">
-            [ Our Partners ]
+            [ Operators And Distribution ]
           </span>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em]">
-              <span className="text-white/40">10+</span> Live Operators
-            </h2>
+            <div>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em]">
+                Already live with serious operators.
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/42">
+                Origami originals are already shipping through direct operator
+                relationships and major aggregator routes, which means buyers do
+                not have to bet on an unproven product.
+              </p>
+            </div>
             <a
-              href="#contact"
+              href="#press"
               className="text-sm text-white/40 hover:text-white transition-colors underline underline-offset-4 decoration-white/20"
             >
-              Contact Sales
+              See launch highlights
             </a>
           </div>
         </motion.div>

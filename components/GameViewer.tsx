@@ -235,6 +235,21 @@ export function GameViewer({
   return (
     <section id="games" className="pb-6 md:pb-10 px-6">
       <div className="mx-auto max-w-[1400px]">
+        <div className="mb-8 max-w-4xl">
+          <span className="mb-4 block text-xs font-medium uppercase tracking-[0.2em] text-white/30">
+            [ Live Product ]
+          </span>
+          <h2 className="max-w-3xl text-3xl font-extrabold leading-[1.08] tracking-[-0.03em] md:text-4xl lg:text-5xl">
+            What operators actually get in market.
+          </h2>
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-white/42">
+            On the left is a live playable Origami game session. On the right
+            is how those games surface inside casino lobbies. Together, they
+            show the core value proposition: proven originals that can be
+            branded, distributed, and understood as part of the operator&apos;s
+            own product.
+          </p>
+        </div>
         <div className="flex flex-col lg:flex-row gap-4 lg:gap-5 items-stretch">
           {/* Game display — left */}
           <motion.div

@@ -17,20 +17,35 @@ export function CTA() {
           transition={{ duration: 0.5 }}
         >
           <span className="text-xs font-medium text-white/30 uppercase tracking-[0.2em] block mb-6">
-            [ The New Standard for Instant Casino Games ]
+            [ Next Step ]
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-[-0.03em] leading-[1.1] mb-10">
-            Add Origami Originals
+            See how Origami would fit
             <br />
-            To Your Casino
+            inside your casino
           </h2>
-          <a
-            href="mailto:hello@betorigami.com"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white text-black text-sm font-medium hover:bg-white/90 transition-colors"
-          >
-            Contact us
-            <ArrowRight size={16} />
-          </a>
+          <p className="mx-auto mb-8 max-w-2xl text-base leading-relaxed text-white/42">
+            If you want to understand commercial fit, integration paths,
+            customization scope, or rollout timelines, the fastest next step is
+            a product walkthrough with the Origami team.
+          </p>
+          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a
+              href="mailto:hello@betorigami.com"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-medium text-black transition-colors hover:bg-white/90"
+            >
+              Talk to Origami
+              <ArrowRight size={16} />
+            </a>
+            <a
+              href="https://docs.betorigami.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.03] px-7 py-3.5 text-sm font-medium text-white/72 transition-colors hover:bg-white/[0.06] hover:text-white"
+            >
+              View documentation
+            </a>
+          </div>
         </motion.div>
       </div>
     </section>

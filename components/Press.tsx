@@ -53,11 +53,16 @@ export function Press() {
           className="mb-12"
         >
           <span className="text-xs font-medium text-white/30 uppercase tracking-[0.2em] block mb-4">
-            [ In the Press ]
+            [ Traction And Launches ]
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em]">
-            Highlights
+            Proof that operators are already shipping Origami.
           </h2>
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-white/42">
+            A first-time buyer should not have to infer whether Origami is real.
+            These launches show active distribution, commercial traction, and
+            adoption across meaningful brands and aggregators.
+          </p>
         </motion.div>
 
         <div className="space-y-4">

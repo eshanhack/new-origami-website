@@ -2,22 +2,22 @@
 
 const sections: Record<string, { label: string; href: string }[]> = {
   Origami: [
-    { label: "Games", href: "#games" },
-    { label: "Company", href: "#company" },
-    { label: "Partners", href: "#" },
-    { label: "Quickstart", href: "#quickstart" },
-    { label: "Press", href: "#press" },
+    { label: "Live Product", href: "#games" },
+    { label: "How It Works", href: "#how-it-works" },
+    { label: "Why Origami", href: "#company" },
+    { label: "Capabilities", href: "#quickstart" },
+    { label: "Launches", href: "#press" },
   ],
   Resources: [
     { label: "Live Demo", href: "#games" },
-    { label: "Features", href: "#quickstart" },
-    { label: "Brand Assets", href: "#" },
-    { label: "Documentation", href: "#" },
+    { label: "Documentation", href: "https://docs.betorigami.com/" },
+    { label: "Softswiss Launch", href: "https://betorigami.com/blog/softswiss" },
+    { label: "Hub88 Launch", href: "https://betorigami.com/blog/hub88" },
     { label: "Contact", href: "#contact" },
   ],
   Socials: [
     { label: "X / Twitter", href: "https://x.com/betorigami" },
-    { label: "Instagram", href: "#" },
+    { label: "Blog", href: "https://betorigami.com/blog" },
     {
       label: "LinkedIn",
       href: "https://www.linkedin.com/company/betorigami",
@@ -33,7 +33,11 @@ export function Footer() {
           {/* Brand */}
           <div>
             <span className="text-sm font-semibold">Origami</span>
-            <p className="mt-3 text-[11px] text-white/25 leading-relaxed">
+            <p className="mt-3 max-w-[220px] text-[11px] leading-relaxed text-white/25">
+              Branded instant casino games for operators who want originals
+              that feel native, load fast, and scale cleanly.
+            </p>
+            <p className="mt-4 text-[11px] text-white/20 leading-relaxed">
               © {new Date().getFullYear()} Origami
             </p>
           </div>

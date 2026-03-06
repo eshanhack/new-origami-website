@@ -193,10 +193,15 @@ export function WhyOrigami() {
             [ The Origami Advantage ]
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-[-0.03em] max-w-2xl leading-[1.05]">
-            Built for scale.
+            Built to survive real operator traffic.
             <br />
-            <span className="text-white/30">Designed for trust.</span>
+            <span className="text-white/30">Designed to earn player trust.</span>
           </h2>
+          <p className="mt-6 max-w-3xl text-base leading-relaxed text-white/42">
+            If a visitor is evaluating Origami as a supplier, this is the part
+            that matters: proven throughput, low latency, reliability,
+            fairness, and support strong enough for consumer-facing products.
+          </p>
         </motion.div>
 
         <div ref={ref} className="h-px bg-white/[0.06] mb-0" />

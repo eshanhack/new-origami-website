@@ -14,10 +14,10 @@ import {
 } from "lucide-react";
 
 const stats = [
-  { value: "<15ms", label: "Load Time" },
-  { value: "50M+", label: "Monthly Bets" },
-  { value: "99.99%", label: "Uptime" },
-  { value: "30+", label: "Markets" },
+  { value: "<15ms", label: "Typical Game Load Time" },
+  { value: "$20B+", label: "Annualized Betting Volume" },
+  { value: "99.9%", label: "Platform Reliability" },
+  { value: "30+", label: "Supported Markets" },
 ];
 
 const capabilities = [
@@ -104,19 +104,47 @@ export function Capabilities() {
             transition={{ duration: 0.5 }}
           >
             <span className="text-xs font-medium text-white/30 uppercase tracking-[0.2em] block mb-4">
-              [ About Us ]
+              [ What Origami Is ]
             </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] max-w-3xl leading-[1.1] mb-6">
-              We craft original instant games for the world&apos;s biggest
-              casinos.
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] max-w-4xl leading-[1.1] mb-6">
+              Origami is the infrastructure layer behind branded instant games.
             </h2>
-            <p className="text-base text-white/45 max-w-2xl leading-relaxed">
-              Founded by the team behind Shuffle.com — one of the world&apos;s
-              top five crypto betting brands — Origami re-packages
-              high-performance crypto-style originals for the broader online
-              casino market. Our games have processed over $20 billion in
-              betting volume.
+            <p className="text-base text-white/45 max-w-3xl leading-relaxed">
+              We help operators launch modern originals without building a full
+              internal games team. Origami supplies the game engine,
+              performance, fairness tooling, and integration rails. Your team
+              controls the brand experience, economics, distribution, and
+              rollout.
             </p>
+            <div className="mt-8 grid gap-4 md:grid-cols-3">
+              <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5">
+                <div className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/28">
+                  Product teams
+                </div>
+                <p className="mt-2 text-sm leading-relaxed text-white/42">
+                  Ship battle-tested originals faster instead of starting with a
+                  blank page and a long R&amp;D roadmap.
+                </p>
+              </div>
+              <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5">
+                <div className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/28">
+                  Commercial teams
+                </div>
+                <p className="mt-2 text-sm leading-relaxed text-white/42">
+                  Turn originals into a brand asset that improves retention,
+                  distinctiveness, and player trust.
+                </p>
+              </div>
+              <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5">
+                <div className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/28">
+                  Compliance teams
+                </div>
+                <p className="mt-2 text-sm leading-relaxed text-white/42">
+                  Choose provably fair or classic RNG paths with the controls
+                  and auditability operators need.
+                </p>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -156,8 +184,13 @@ export function Capabilities() {
               [ Operator Capabilities ]
             </span>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em]">
-              Retention Unlocked
+              Everything operators need to launch and control originals.
             </h2>
+            <p className="mt-4 max-w-3xl text-base leading-relaxed text-white/42">
+              Origami is not just a game bundle. It is a configurable delivery
+              layer for branding, economics, bonus tooling, fairness,
+              localization, and integration.
+            </p>
           </motion.div>
 
           <motion.div
