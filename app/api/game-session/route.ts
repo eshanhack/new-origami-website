@@ -36,27 +36,31 @@ async function createSession(
   });
 }
 
-const BRAND_THEMES: Record<string, { theme: string; logoUrl: string | null }> = {
+const BRAND_THEMES: Record<string, { theme: string | null; logoPath: string | null }> = {
+  shuffle: {
+    theme: null,
+    logoPath: "/brands/shuffle.svg",
+  },
   bitcasino: {
     theme: "bitcasino.css?v=3",
-    logoUrl: "https://assets.betorigami.com/logos/bitcasino.svg",
+    logoPath: "/brands/bitcasino-footer.svg",
   },
   cloudbet: {
     theme: "cloudbet.css?v=3",
-    logoUrl: "https://assets.betorigami.com/logos/cloudbet.svg",
+    logoPath: "/brands/cloudbet-footer.svg",
   },
   csgo500: {
     theme: "csgo500.css?v=3",
-    logoUrl: null,
+    logoPath: "/brands/csgo500-footer.svg",
   },
   metaspins: {
     theme: "metaspins.css?v=3",
-    logoUrl: null,
+    logoPath: "/brands/metaspins-footer.svg",
   },
 };
 
-function applyBrandTheme(url: string, brand: string): string {
-  const brandConfig = BRAND_THEMES[brand];
+function applyBrandTheme(url: string, brand: string, origin: string): string {
+  const brandConfig = BRAND_THEMES[brand] || BRAND_THEMES.shuffle;
   if (!brandConfig) return url;
 
   try {
@@ -68,9 +72,11 @@ function applyBrandTheme(url: string, brand: string): string {
       Buffer.from(decodeURIComponent(settingsB64), "base64").toString()
     );
 
-    settings.theme = brandConfig.theme;
-    if (brandConfig.logoUrl) {
-      settings.logoUrl = brandConfig.logoUrl;
+    if (brandConfig.theme) {
+      settings.theme = brandConfig.theme;
+    }
+    if (brandConfig.logoPath) {
+      settings.logoUrl = `${origin}${brandConfig.logoPath}`;
     }
 
     const newB64 = Buffer.from(JSON.stringify(settings)).toString("base64");
@@ -110,7 +116,8 @@ export async function POST(req: NextRequest) {
     }
 
     const data = await res.json();
-    const themedUrl = applyBrandTheme(data.url, brand || "shuffle");
+    const origin = req.nextUrl.origin;
+    const themedUrl = applyBrandTheme(data.url, brand || "shuffle", origin);
     return NextResponse.json({ url: themedUrl });
   } catch (e) {
     console.error("Game session error:", e);
