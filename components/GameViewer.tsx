@@ -46,6 +46,65 @@ const games = [
   },
 ];
 
+const BRAND_FRAMES: Record<
+  string,
+  {
+    accent: string;
+    chromeBg: string;
+    surfaceBg: string;
+    footerBg: string;
+    outline: string;
+    label: string;
+    logo: string;
+  }
+> = {
+  shuffle: {
+    accent: "#886CFF",
+    chromeBg: "linear-gradient(180deg, #121224 0%, #0c0d17 100%)",
+    surfaceBg: "#090a12",
+    footerBg: "rgba(17, 18, 31, 0.92)",
+    outline: "rgba(136, 108, 255, 0.2)",
+    label: "SHUFFLE.COM",
+    logo: "/brands/shuffle.svg",
+  },
+  bitcasino: {
+    accent: "#F2590D",
+    chromeBg: "linear-gradient(180deg, #181513 0%, #11100f 100%)",
+    surfaceBg: "#0b0b0c",
+    footerBg: "rgba(28, 18, 12, 0.92)",
+    outline: "rgba(242, 89, 13, 0.22)",
+    label: "BITCASINO.IO",
+    logo: "/brands/bitcasino-footer.svg",
+  },
+  cloudbet: {
+    accent: "#DFFD51",
+    chromeBg: "linear-gradient(180deg, #171714 0%, #11110f 100%)",
+    surfaceBg: "#0a0a09",
+    footerBg: "rgba(22, 22, 18, 0.94)",
+    outline: "rgba(223, 253, 81, 0.22)",
+    label: "CLOUDBET.COM",
+    logo: "/brands/cloudbet-footer.svg",
+  },
+  csgo500: {
+    accent: "#FE617C",
+    chromeBg: "linear-gradient(180deg, #1a1217 0%, #110d10 100%)",
+    surfaceBg: "#09080a",
+    footerBg: "rgba(24, 14, 18, 0.94)",
+    outline: "rgba(254, 97, 124, 0.22)",
+    label: "CSGO500.COM",
+    logo: "/brands/csgo500-footer.svg",
+  },
+  metaspins: {
+    accent: "#BE20FF",
+    chromeBg: "linear-gradient(180deg, #17101f 0%, #100b16 100%)",
+    surfaceBg: "#09070d",
+    footerBg: "rgba(18, 12, 24, 0.94)",
+    outline: "rgba(190, 32, 255, 0.22)",
+    label: "METASPINS.COM",
+    logo: "/brands/metaspins-footer.svg",
+  },
+};
+
 function OrigamiSpinner() {
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-[#0c0c0c] z-10">
@@ -134,6 +193,7 @@ export function GameViewer({
   const requestId = useRef(0);
 
   const isLiveDemo = !LIVE_DEMO_EXCLUDED.has(activeGame);
+  const brandFrame = BRAND_FRAMES[activeBrand] || BRAND_FRAMES.shuffle;
 
   const loadSession = useCallback(async (game: string, brand: string) => {
     if (LIVE_DEMO_EXCLUDED.has(game)) {
@@ -181,54 +241,146 @@ export function GameViewer({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="video-glow rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0c0c0c] w-full lg:w-[58%] flex-shrink-0"
+            className="relative w-full lg:w-[58%] flex-shrink-0 overflow-hidden rounded-[28px] border"
+            style={{
+              background: brandFrame.chromeBg,
+              borderColor: brandFrame.outline,
+              boxShadow: `0 20px 60px rgba(0, 0, 0, 0.45), 0 0 48px ${brandFrame.accent}14`,
+            }}
           >
-            <div className="relative w-full aspect-[64/33]">
-              {/* Spinner while loading */}
-              {loading && <OrigamiSpinner />}
+            <div
+              className="pointer-events-none absolute inset-x-0 top-0 h-24"
+              style={{
+                background: `radial-gradient(ellipse at top, ${brandFrame.accent}16 0%, transparent 68%)`,
+              }}
+            />
 
-              {/* Error state with retry */}
-              {error && !loading && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0c0c0c] z-10 gap-3">
-                  <span className="text-white/40 text-sm">
-                    Failed to load demo
-                  </span>
-                  <button
-                    onClick={handleRetry}
-                    className="px-4 py-1.5 text-xs font-medium text-white/70 bg-white/[0.08] hover:bg-white/[0.12] rounded-full transition-colors"
+            <div className="relative z-10">
+              <div
+                className="flex items-center justify-between border-b px-4 py-3"
+                style={{ borderColor: brandFrame.outline }}
+              >
+                <div className="flex items-center gap-2">
+                  <span
+                    className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.16em]"
+                    style={{
+                      backgroundColor: `${brandFrame.accent}18`,
+                      color: brandFrame.accent,
+                    }}
                   >
-                    Retry
-                  </button>
-                </div>
-              )}
-
-              {/* Live iframe for supported games */}
-              {isLiveDemo && iframeUrl && (
-                <iframe
-                  key={iframeKey}
-                  src={iframeUrl}
-                  className={cn(
-                    "absolute inset-0 w-full h-full border-0 transition-opacity duration-300",
-                    loading ? "opacity-0" : "opacity-100"
-                  )}
-                  onLoad={handleIframeLoad}
-                  allow="autoplay"
-                  sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-                />
-              )}
-
-              {/* Video fallback for excluded games */}
-              {!isLiveDemo &&
-                games
-                  .filter((g) => LIVE_DEMO_EXCLUDED.has(g.id))
-                  .map((game) => (
-                    <FallbackVideo
-                      key={game.id}
-                      src={game.video}
-                      name={game.name}
-                      active={game.id === activeGame}
+                    <span
+                      className="h-1.5 w-1.5 rounded-full"
+                      style={{ backgroundColor: brandFrame.accent }}
                     />
-                  ))}
+                    {isLiveDemo ? "Live demo" : "Video preview"}
+                  </span>
+                  <span className="text-[10px] uppercase tracking-[0.16em] text-white/30">
+                    Brand-matched frame
+                  </span>
+                </div>
+
+                <span
+                  className="text-[10px] font-medium uppercase tracking-[0.18em]"
+                  style={{ color: brandFrame.accent }}
+                >
+                  {brandFrame.label}
+                </span>
+              </div>
+
+              <div className="p-3">
+                <div
+                  className="relative overflow-hidden rounded-[20px] border"
+                  style={{
+                    borderColor: brandFrame.outline,
+                    backgroundColor: brandFrame.surfaceBg,
+                  }}
+                >
+                  <div
+                    className="pointer-events-none absolute inset-x-0 top-0 z-10 h-px"
+                    style={{
+                      background: `linear-gradient(90deg, transparent, ${brandFrame.accent}90, transparent)`,
+                    }}
+                  />
+
+                  <div className="relative w-full aspect-[64/33]">
+                    {/* Spinner while loading */}
+                    {loading && <OrigamiSpinner />}
+
+                    {/* Error state with retry */}
+                    {error && !loading && (
+                      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-[#0c0c0c]">
+                        <span className="text-sm text-white/40">
+                          Failed to load demo
+                        </span>
+                        <button
+                          onClick={handleRetry}
+                          className="rounded-full px-4 py-1.5 text-xs font-medium text-white/70 transition-colors hover:bg-white/[0.12]"
+                          style={{ backgroundColor: `${brandFrame.accent}20` }}
+                        >
+                          Retry
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Live iframe for supported games */}
+                    {isLiveDemo && iframeUrl && (
+                      <iframe
+                        key={iframeKey}
+                        src={iframeUrl}
+                        className={cn(
+                          "absolute inset-0 w-full h-full border-0 transition-opacity duration-300",
+                          loading ? "opacity-0" : "opacity-100"
+                        )}
+                        onLoad={handleIframeLoad}
+                        allow="autoplay"
+                        sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                      />
+                    )}
+
+                    {/* Video fallback for excluded games */}
+                    {!isLiveDemo &&
+                      games
+                        .filter((g) => LIVE_DEMO_EXCLUDED.has(g.id))
+                        .map((game) => (
+                          <FallbackVideo
+                            key={game.id}
+                            src={game.video}
+                            name={game.name}
+                            active={game.id === activeGame}
+                          />
+                        ))}
+                  </div>
+                </div>
+              </div>
+
+              <div
+                className="flex items-center justify-between border-t px-4 py-3"
+                style={{
+                  borderColor: brandFrame.outline,
+                  background: brandFrame.footerBg,
+                }}
+              >
+                <div className="flex min-w-0 items-center gap-3">
+                  <img
+                    src={brandFrame.logo}
+                    alt={brandFrame.label}
+                    className="h-4 w-auto opacity-90"
+                  />
+                  <span className="text-[10px] uppercase tracking-[0.16em] text-white/32">
+                    Styled to match partner brand
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <span
+                    className="h-1.5 w-1.5 rounded-full"
+                    style={{ backgroundColor: brandFrame.accent }}
+                  />
+                  <span className="text-[10px] uppercase tracking-[0.16em] text-white/42">
+                    Demo session
+                  </span>
+                </div>
+              </div>
             </div>
           </motion.div>
 
